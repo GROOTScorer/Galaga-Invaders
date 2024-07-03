@@ -1,4 +1,4 @@
-package main.java.com.calculadora.gui;
+package GUI_Vectores;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,16 +6,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import main.java.com.calculadora.gui.RoundedPanel;
+import main.java.com.calculadora.gui.RoundedTextfield;
+import main.java.com.calculadora.gui.VentanaMatricesMasDeUno;
 import main.java.com.calculadora.logic.MatricesOperacion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 
-public class VentanaMatricesUno extends JInternalFrame{
+public class VentanaVectores extends JFrame {
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	 private Runnable abrirOtraVentanaCallback;
 	// Declaracion de variables
 	private JTextField casilla_1_ent;
 	private JTextField casilla_2_ent;
@@ -80,17 +83,10 @@ public class VentanaMatricesUno extends JInternalFrame{
 
 
 	// Se crea el frame
-	public VentanaMatricesUno(Runnable abrirOtraVentanaCallback) {
-        super("Matrices 1 | Ozores Matías y Amodeo Luca", true, true, true, true);
-        ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-        this.setBorder(null);
-        this.abrirOtraVentanaCallback = abrirOtraVentanaCallback;
+	public VentanaVectores() {
         
         setBounds(0, 0, 900, 650);
         setResizable(false);
-        setClosable(false);
-        setIconifiable(false);
-        setMaximizable(false);
         Color miColorPrin = new Color(26, 27, 40);
         Color miColorSec = new Color(87, 116, 250);
         Color letrasColor = new Color(255, 255, 255);
@@ -108,54 +104,54 @@ public class VentanaMatricesUno extends JInternalFrame{
 		
 		JPanel principal = new JPanel();
 		principal.setBackground(miColorPrin);
-		principal.setBounds(23, 215, 834, 373);
+		principal.setBounds(23, 215, 834, 396);
 		contentPane.add(principal);
 		principal.setLayout(null);
 		
 		JPanel mult_escalar = new RoundedPanel(15,miColorSec);
-		mult_escalar.setBounds(10, 300, 260, 47);
+		mult_escalar.setBounds(10, 286, 260, 47);
 		principal.add(mult_escalar);
 		mult_escalar.setOpaque(false);
 		mult_escalar.setLayout(new GridLayout(0, 1, 0, 0));
- 
 		
-		JLabel calc_escalar = new JLabel("Calcular escalar");
+		
+		JLabel calc_escalar = new JLabel("Multiplicar por escalar");
+		mult_escalar.add(calc_escalar);
 		calc_escalar.setForeground(letrasColor);
 		calc_escalar.setFont(new Font("Microsoft YaHei", Font.BOLD, 15));
 		calc_escalar.setAlignmentX(Component.CENTER_ALIGNMENT);
 		calc_escalar.setHorizontalAlignment(SwingConstants.CENTER);
 		calc_escalar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		mult_escalar.add(calc_escalar);
 		
 		JPanel determinante = new RoundedPanel(15,miColorSec);
 		determinante.setBackground(new Color(255, 255, 255));
-		determinante.setBounds(280, 300, 274, 47);
+		determinante.setBounds(280, 286, 274, 47);
 		determinante.setOpaque(false);
 		principal.add(determinante);
 		determinante.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel calc_determinante = new JLabel("Calcular determinante");
+		JLabel calc_determinante = new JLabel("Suma de vectores");
+		determinante.add(calc_determinante);
 		calc_determinante.setFont(new Font("Microsoft YaHei", Font.BOLD, 15));
 		calc_determinante.setForeground(letrasColor);
 		calc_determinante.setHorizontalAlignment(SwingConstants.CENTER);
 		calc_determinante.setAlignmentX(0.5f);
 		calc_determinante.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		determinante.add(calc_determinante);
 		
 		JPanel inversa = new RoundedPanel(15,miColorSec);
 		inversa.setBackground(miColorSec);
-		inversa.setBounds(564, 300, 260, 47);
+		inversa.setBounds(564, 286, 260, 47);
 		inversa.setOpaque(false);
 		principal.add(inversa);
 		inversa.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel calc_inversa = new JLabel("Calcular inversa");
+		JLabel calc_inversa = new JLabel("Resta de vectores");
+		inversa.add(calc_inversa);
 		calc_inversa.setForeground(letrasColor);
 		calc_inversa.setFont(new Font("Microsoft YaHei", Font.BOLD, 15));
 		calc_inversa.setHorizontalAlignment(SwingConstants.CENTER);
 		calc_inversa.setAlignmentX(0.5f);
 		calc_inversa.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		inversa.add(calc_inversa);
 		
 		JPanel matrices = new JPanel();
 		matrices.setBackground(new Color(0, 64, 128));
@@ -267,6 +263,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		casilla_4_ent.setBounds(44, 98, 70, 70);
 		casilla_4_ent.setBorder(BorderFactory.createEmptyBorder());
 		casilla_4_ent.setCaretColor(Color.WHITE);
+		casilla_4_ent.setVisible(false);
 
 		casilla_4_ent.addKeyListener(new KeyAdapter() {
 		    @Override
@@ -292,6 +289,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		casilla_5_ent.setBounds(132, 98, 70, 70);
 		casilla_5_ent.setBorder(BorderFactory.createEmptyBorder());
 		casilla_5_ent.setCaretColor(Color.WHITE);
+		casilla_5_ent.setVisible(false);
 
 		casilla_5_ent.addKeyListener(new KeyAdapter() {
 		    @Override
@@ -317,6 +315,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		casilla_6_ent.setBounds(220, 98, 70, 70);
 		casilla_6_ent.setBorder(BorderFactory.createEmptyBorder());
 		casilla_6_ent.setCaretColor(Color.WHITE);
+		casilla_6_ent.setVisible(false);
 		casilla_6_ent.addKeyListener(new KeyAdapter() {
 		    @Override
 		    public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -804,23 +803,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		    }
 		});
 		entrada.add(casilla_25_ent);
-		
-		JLabel corchete_izq = new JLabel();
-		corchete_izq.setVerticalAlignment(SwingConstants.TOP);
-		corchete_izq.setHorizontalAlignment(SwingConstants.LEFT);
-		corchete_izq.setBounds(0, 0, 29, 264);
-
-		entrada.add(corchete_izq);
-
-
-		
-		JLabel corchete_der = new JLabel("");
-		corchete_der.setVerticalAlignment(SwingConstants.TOP);
-		corchete_der.setHorizontalAlignment(SwingConstants.RIGHT);
-
-		corchete_der.setBounds(310, 0, 29, 264);
-		entrada.add(corchete_der);
-		
+				
 		JPanel salida = new JPanel();
 		salida.setBorder(null);
 		salida.setBackground(new Color(128, 128, 192));
@@ -828,21 +811,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		salida.setOpaque(false);
 		matrices.add(salida);
 		salida.setLayout(null);
-		
-		JLabel corchete_izq_1 = new JLabel("");
-		corchete_izq_1.setVerticalAlignment(SwingConstants.TOP);
-		corchete_izq_1.setHorizontalAlignment(SwingConstants.LEFT);
-
-		corchete_izq_1.setBounds(36, 0, 29, 264);
-		salida.add(corchete_izq_1);
-		
-		JLabel corchete_der_1 = new JLabel("");
-		corchete_der_1.setVerticalAlignment(SwingConstants.TOP);
-		corchete_der_1.setHorizontalAlignment(SwingConstants.RIGHT);
-
-		corchete_der_1.setBounds(341, 0, 29, 264);
-		salida.add(corchete_der_1);
-		
+				
 		casilla_1_sal = new RoundedTextfield(10,Color.WHITE,gris);
 		casilla_1_sal.setHorizontalAlignment(SwingConstants.CENTER);
 		casilla_1_sal.setForeground(new Color(30, 36, 53));
@@ -885,6 +854,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		casilla_4_sal.setBounds(80, 98, 70, 70);
 		casilla_4_sal.setEditable(false); 
 		casilla_4_sal.setFocusable(false);
+		casilla_4_sal.setVisible(false);
 		salida.add(casilla_4_sal);
 		
 		casilla_5_sal = new RoundedTextfield(10,Color.WHITE,gris);
@@ -896,6 +866,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		casilla_5_sal.setBounds(168, 98, 70, 70);
 		casilla_5_sal.setEditable(false); 
 		casilla_5_sal.setFocusable(false);
+		casilla_5_sal.setVisible(false);
 		salida.add(casilla_5_sal);
 		
 		casilla_6_sal = new RoundedTextfield(10,Color.WHITE,gris);
@@ -907,6 +878,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		casilla_6_sal.setBounds(256, 98, 70, 70);
 		casilla_6_sal.setEditable(false); 
 		casilla_6_sal.setFocusable(false);
+		casilla_6_sal.setVisible(false);
 		salida.add(casilla_6_sal);
 		
 		casilla_7_sal = new RoundedTextfield(10,Color.WHITE,gris);
@@ -1199,14 +1171,14 @@ public class VentanaMatricesUno extends JInternalFrame{
 		            casilla_2_ent.setVisible(true);
 		            casilla_3_ent.setVisible(true);
 		            casilla_4_ent.setVisible(true);
-		            casilla_5_ent.setVisible(true);
-		            casilla_6_ent.setVisible(true);
-		            casilla_7_ent.setVisible(true);
-		            casilla_8_ent.setVisible(true);
-		            casilla_9_ent.setVisible(true);
-		            casilla_10_ent.setVisible(true);
-		            casilla_11_ent.setVisible(true);
-		            casilla_12_ent.setVisible(true);
+		            casilla_5_ent.setVisible(false);
+		            casilla_6_ent.setVisible(false);
+		            casilla_7_ent.setVisible(false);
+		            casilla_8_ent.setVisible(false);
+		            casilla_9_ent.setVisible(false);
+		            casilla_10_ent.setVisible(false);
+		            casilla_11_ent.setVisible(false);
+		            casilla_12_ent.setVisible(false);
 		            casilla_13_ent.setVisible(true);
 		            casilla_14_ent.setVisible(true);
 		            casilla_15_ent.setVisible(true);
@@ -1247,14 +1219,14 @@ public class VentanaMatricesUno extends JInternalFrame{
 		            casilla_2_sal.setVisible(true);
 		            casilla_3_sal.setVisible(true);
 		            casilla_4_sal.setVisible(true);
-		            casilla_5_sal.setVisible(true);
-		            casilla_6_sal.setVisible(true);
-		            casilla_7_sal.setVisible(true);
-		            casilla_8_sal.setVisible(true);
-		            casilla_9_sal.setVisible(true);
-		            casilla_10_sal.setVisible(true);
-		            casilla_11_sal.setVisible(true);
-		            casilla_12_sal.setVisible(true);
+		            casilla_5_sal.setVisible(false);
+		            casilla_6_sal.setVisible(false);
+		            casilla_7_sal.setVisible(false);
+		            casilla_8_sal.setVisible(false);
+		            casilla_9_sal.setVisible(false);
+		            casilla_10_sal.setVisible(false);
+		            casilla_11_sal.setVisible(false);
+		            casilla_12_sal.setVisible(false);
 		            casilla_13_sal.setVisible(true);
 		            casilla_14_sal.setVisible(true);
 		            casilla_15_sal.setVisible(true);
@@ -1301,9 +1273,12 @@ public class VentanaMatricesUno extends JInternalFrame{
 		            casilla_1_ent.setBounds(44, 11, 70, 70);
 		            casilla_2_ent.setBounds(132, 11, 70, 70);
 		            casilla_3_ent.setBounds(220, 11, 70, 70);
-		            casilla_4_ent.setBounds(44, 98, 70, 70);
-		            casilla_5_ent.setBounds(132, 98, 70, 70);
-		            casilla_6_ent.setBounds(220, 98, 70, 70);
+		            casilla_4_ent.setVisible(false);
+		            casilla_5_ent.setVisible(false);
+		            casilla_6_ent.setVisible(false);
+		            casilla_7_ent.setVisible(true);
+		            casilla_8_ent.setVisible(true);
+		            casilla_9_ent.setVisible(true);
 		            casilla_7_ent.setBounds(44, 186, 70, 70);
 		            casilla_8_ent.setBounds(132, 186, 70, 70);
 		            casilla_9_ent.setBounds(220, 186, 70, 70);
@@ -1311,9 +1286,9 @@ public class VentanaMatricesUno extends JInternalFrame{
 		            casilla_1_sal.setVisible(true);
 		            casilla_2_sal.setVisible(true);
 		            casilla_3_sal.setVisible(true);
-		            casilla_4_sal.setVisible(true);
-		            casilla_5_sal.setVisible(true);
-		            casilla_6_sal.setVisible(true);
+		            casilla_4_sal.setVisible(false);
+		            casilla_5_sal.setVisible(false);
+		            casilla_6_sal.setVisible(false);
 		            casilla_7_sal.setVisible(true);
 		            casilla_8_sal.setVisible(true);
 		            casilla_9_sal.setVisible(true);
@@ -1354,21 +1329,21 @@ public class VentanaMatricesUno extends JInternalFrame{
 		            casilla_3_ent.setVisible(true);
 		            casilla_4_ent.setVisible(true);
 		            casilla_5_ent.setVisible(true);
-		            casilla_6_ent.setVisible(true);
-		            casilla_7_ent.setVisible(true);
-		            casilla_8_ent.setVisible(true);
-		            casilla_9_ent.setVisible(true);
-		            casilla_10_ent.setVisible(true);
-		            casilla_11_ent.setVisible(true);
-		            casilla_12_ent.setVisible(true);
-		            casilla_13_ent.setVisible(true);
-		            casilla_14_ent.setVisible(true);
-		            casilla_15_ent.setVisible(true);
-		            casilla_16_ent.setVisible(true);
-		            casilla_17_ent.setVisible(true);
-		            casilla_18_ent.setVisible(true);
-		            casilla_19_ent.setVisible(true);
-		            casilla_20_ent.setVisible(true);
+		            casilla_6_ent.setVisible(false);
+		            casilla_7_ent.setVisible(false);
+		            casilla_8_ent.setVisible(false);
+		            casilla_9_ent.setVisible(false);
+		            casilla_10_ent.setVisible(false);
+		            casilla_11_ent.setVisible(false);
+		            casilla_12_ent.setVisible(false);
+		            casilla_13_ent.setVisible(false);
+		            casilla_14_ent.setVisible(false);
+		            casilla_15_ent.setVisible(false);
+		            casilla_16_ent.setVisible(false);
+		            casilla_17_ent.setVisible(false);
+		            casilla_18_ent.setVisible(false);
+		            casilla_19_ent.setVisible(false);
+		            casilla_20_ent.setVisible(false);
 		            casilla_21_ent.setVisible(true);
 		            casilla_22_ent.setVisible(true);
 		            casilla_23_ent.setVisible(true);
@@ -1411,21 +1386,21 @@ public class VentanaMatricesUno extends JInternalFrame{
 		            casilla_3_sal.setVisible(true);
 		            casilla_4_sal.setVisible(true);
 		            casilla_5_sal.setVisible(true);
-		            casilla_6_sal.setVisible(true);
-		            casilla_7_sal.setVisible(true);
-		            casilla_8_sal.setVisible(true);
-		            casilla_9_sal.setVisible(true);
-		            casilla_10_sal.setVisible(true);
-		            casilla_11_sal.setVisible(true);
-		            casilla_12_sal.setVisible(true);
-		            casilla_13_sal.setVisible(true);
-		            casilla_14_sal.setVisible(true);
-		            casilla_15_sal.setVisible(true);
-		            casilla_16_sal.setVisible(true);
-		            casilla_17_sal.setVisible(true);
-		            casilla_18_sal.setVisible(true);
-		            casilla_19_sal.setVisible(true);
-		            casilla_20_sal.setVisible(true);
+		            casilla_6_sal.setVisible(false);
+		            casilla_7_sal.setVisible(false);
+		            casilla_8_sal.setVisible(false);
+		            casilla_9_sal.setVisible(false);
+		            casilla_10_sal.setVisible(false);
+		            casilla_11_sal.setVisible(false);
+		            casilla_12_sal.setVisible(false);
+		            casilla_13_sal.setVisible(false);
+		            casilla_14_sal.setVisible(false);
+		            casilla_15_sal.setVisible(false);
+		            casilla_16_sal.setVisible(false);
+		            casilla_17_sal.setVisible(false);
+		            casilla_18_sal.setVisible(false);
+		            casilla_19_sal.setVisible(false);
+		            casilla_20_sal.setVisible(false);
 		            casilla_21_sal.setVisible(true);
 		            casilla_22_sal.setVisible(true);
 		            casilla_23_sal.setVisible(true);
@@ -1558,47 +1533,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		menu_matrices.setBounds(23, 125, 834, 89);
 		contentPane.add(menu_matrices);
 		menu_matrices.setLayout(null);
-		
-		JPanel ingresar_una_matriz = new RoundedPanel(15,miColorSec);
-		ingresar_una_matriz.setBackground(miColorSec);
-		ingresar_una_matriz.setBounds(10, 11, 390, 67);
-		ingresar_una_matriz.setOpaque(false);
-		menu_matrices.add(ingresar_una_matriz);
-		ingresar_una_matriz.setLayout(new GridLayout(1, 0, 0, 0));
-
-		
-		JLabel ingreso_una = new JLabel("Ingresar una matriz");
-		ingreso_una.setFont(new Font("Microsoft YaHei", Font.BOLD, 18));
-		ingreso_una.setForeground(letrasColor);
-		ingreso_una.setHorizontalAlignment(SwingConstants.CENTER);
-		ingreso_una.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		ingresar_una_matriz.add(ingreso_una);
-		
-		JPanel ingresar_dos_matrices = new RoundedPanel(15, new Color(30, 36, 53));
-
-		ingresar_dos_matrices.setOpaque(false);
-		ingresar_dos_matrices.setBackground(new Color(30, 36, 53));
-		ingresar_dos_matrices.setBounds(434, 11, 390, 67);
-		menu_matrices.add(ingresar_dos_matrices);
-		ingresar_dos_matrices.setLayout(new GridLayout(1, 0, 0, 0));
-
-        ingresar_dos_matrices.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                setVisible(false);
-                if (abrirOtraVentanaCallback != null) {
-                    abrirOtraVentanaCallback.run();
-                }
-            }
-        });
-		
-		JLabel ingreso_dos = new JLabel("Ingresar dos matrices");
-		ingreso_dos.setHorizontalAlignment(SwingConstants.CENTER);
-		ingreso_dos.setForeground(Color.WHITE);
-		ingreso_dos.setFont(new Font("Microsoft YaHei", Font.BOLD, 18));
-		ingreso_dos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		ingresar_dos_matrices.add(ingreso_dos);
-		
+				
 		JPanel menu_general = new JPanel();
 		menu_general.setBackground(miColorPrin);
 		menu_general.setBounds(23, 34, 834, 80);
@@ -1632,42 +1567,42 @@ public class VentanaMatricesUno extends JInternalFrame{
 		aritmeticas.add(texto_aritmeticas);
 		
 		
-		JPanel vectores = new RoundedPanel(15,Color.WHITE);
-		vectores.setBackground(Color.WHITE);
+		JPanel vectores = new RoundedPanel(15,miColorSec);
+		vectores.setBackground(miColorSec);
 		vectores.setBounds(221, 11, 185, 58);
 		vectores.setOpaque(false);
 		menu_general.add(vectores);
 		vectores.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		vectores.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				vectores.setBackground(new Color(155, 172, 254));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				vectores.setBackground(new Color(255, 255, 255));
-			}
-		});
-		
+				
 		JLabel texto_vectores = new JLabel("VECTORES");
+		texto_vectores.setBackground(miColorSec);
 		texto_vectores.setHorizontalAlignment(SwingConstants.CENTER);
-		texto_vectores.setForeground(new Color(30, 36, 53));
+		texto_vectores.setForeground(letrasColor);
 		texto_vectores.setFont(new Font("Microsoft YaHei", Font.BOLD, 14));
 		texto_vectores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		vectores.add(texto_vectores);
 		
-		JPanel matrices_operaciones = new RoundedPanel(15, miColorSec);
-		matrices_operaciones.setBackground(miColorSec);
+		JPanel matrices_operaciones = new RoundedPanel(15,Color.WHITE);
+		matrices_operaciones.setBackground(Color.WHITE);
 		matrices_operaciones.setBounds(432, 11, 185, 58);
 		matrices_operaciones.setOpaque(false);
 		menu_general.add(matrices_operaciones);
 		matrices_operaciones.setLayout(new GridLayout(1, 0, 0, 0));
 		
+		matrices_operaciones.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				matrices_operaciones.setBackground(new Color(155, 172, 254));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				matrices_operaciones.setBackground(new Color(255, 255, 255));
+			}
+		});
+		
 		JLabel texto_matrices = new JLabel("MATRICES");
-		texto_matrices.setBackground(miColorSec);
 		texto_matrices.setHorizontalAlignment(SwingConstants.CENTER);
-		texto_matrices.setForeground(letrasColor);
+		texto_matrices.setForeground(new Color(30, 36, 53));
 		texto_matrices.setFont(new Font("Microsoft YaHei", Font.BOLD, 14));
 		texto_matrices.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		matrices_operaciones.add(texto_matrices);
@@ -1696,15 +1631,46 @@ public class VentanaMatricesUno extends JInternalFrame{
 		texto_ecuaciones.setFont(new Font("Microsoft YaHei", Font.BOLD, 14));
 		texto_ecuaciones.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		ecuaciones.add(texto_ecuaciones);
+				
+		JPanel mult_escalar_1 = new RoundedPanel(15, new Color(87, 116, 250));
+		mult_escalar_1.setOpaque(false);
+		mult_escalar_1.setBounds(123, 338, 260, 47);
+		principal.add(mult_escalar_1);
+		mult_escalar_1.setLayout(new GridLayout(0, 1, 0, 0));
 		
+		JLabel calc_escalar_1 = new JLabel("Producto escalar");
+		mult_escalar_1.add(calc_escalar_1);
+		calc_escalar_1.setHorizontalAlignment(SwingConstants.CENTER);
+		calc_escalar_1.setForeground(Color.WHITE);
+		calc_escalar_1.setFont(new Font("Microsoft YaHei", Font.BOLD, 15));
+		calc_escalar_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		calc_escalar_1.setAlignmentX(0.5f);
 		
-		corchete_izq.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteIzq.png")));
-		corchete_der.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteDer.png")));
-		corchete_izq_1.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteIzq.png")));
-		corchete_der_1.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteDer.png")));
+		RoundedPanel mult_escalar_2 = new RoundedPanel(15, new Color(87, 116, 250));
+		mult_escalar_2.setOpaque(false);
+		mult_escalar_2.setBounds(456, 338, 260, 47);
+		principal.add(mult_escalar_2);
+		mult_escalar_2.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JLabel calc_escalar_2 = new JLabel("Producto vectorial");
+		mult_escalar_2.add(calc_escalar_2);
+		calc_escalar_2.setHorizontalAlignment(SwingConstants.CENTER);
+		calc_escalar_2.setForeground(Color.WHITE);
+		calc_escalar_2.setFont(new Font("Microsoft YaHei", Font.BOLD, 15));
+		calc_escalar_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		calc_escalar_2.setAlignmentX(0.5f);
 		
 		// Parte logica simplificada
 				mult_escalar.addMouseListener(new java.awt.event.MouseAdapter() {
+				    @Override
+				    public void mouseEntered(MouseEvent e) {
+				        calc_escalar.setForeground(new Color(205, 205, 205));
+				    }
+				    @Override
+				    public void mouseExited(MouseEvent e) {
+				        calc_escalar.setForeground(letrasColor);    
+				    }
+				    @Override
 				    public void mouseClicked(java.awt.event.MouseEvent evt) {
 				        	if(spinnerValor == 4) {
 				        		if(areAllFieldsFilled4X4()) {
@@ -1762,7 +1728,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 						    		casilla_25_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
 
 				        			
-				        			System.out.println("Entra al 4");	
 					        		String valor1 = casilla_1_ent.getText();
 						        	String valor2 = casilla_2_ent.getText();
 						        	String valor3 = casilla_3_ent.getText();
@@ -1782,68 +1747,39 @@ public class VentanaMatricesUno extends JInternalFrame{
 		
 						        	String escalar_num = num_escalar.getText();
 						        	
-						        	int[][] matrizInicial = new int[4][4];
-						        	matrizInicial[0][0] = Integer.parseInt(valor1);
-						        	matrizInicial[0][1] = Integer.parseInt(valor2);
-						        	matrizInicial[0][2] = Integer.parseInt(valor3);
-						        	matrizInicial[0][3] = Integer.parseInt(valor4);
+						        	int[] vector1 = new int[4];
+						        	int[] vector2 = new int[4];
+						        	vector1[0] = Integer.parseInt(valor1);
+						        	vector1[1] = Integer.parseInt(valor2);
+						        	vector1[2] = Integer.parseInt(valor3);
+						        	vector1[3] = Integer.parseInt(valor4);
 						        	
-						        	matrizInicial[1][0] = Integer.parseInt(valor5);
-						        	matrizInicial[1][1] = Integer.parseInt(valor6);
-						        	matrizInicial[1][2] = Integer.parseInt(valor7);
-						        	matrizInicial[1][3] = Integer.parseInt(valor8);
-						        	
-						        	matrizInicial[2][0] = Integer.parseInt(valor9);
-						        	matrizInicial[2][1] = Integer.parseInt(valor10);
-						        	matrizInicial[2][2] = Integer.parseInt(valor11);
-						        	matrizInicial[2][3] = Integer.parseInt(valor12);
-						        	
-						        	matrizInicial[3][0] = Integer.parseInt(valor13);
-						        	matrizInicial[3][1] = Integer.parseInt(valor14);
-						        	matrizInicial[3][2] = Integer.parseInt(valor15);
-						        	matrizInicial[3][3] = Integer.parseInt(valor16);
-						        	
+						        	vector2[0] = Integer.parseInt(valor13);
+						        	vector2[1] = Integer.parseInt(valor14);
+						        	vector2[2] = Integer.parseInt(valor15);
+						        	vector2[3] = Integer.parseInt(valor16);
+						        							        	
 						        	int numEscalar = Integer.parseInt(escalar_num);
 						        	
-						        	int[][] resultadoEscalar = MatricesOperacion.calcularEscalar(matrizInicial, numEscalar);	
+						        	multEscalar(vector1, vector2, numEscalar, spinnerValor);
 		
 						    		casilla_1_sal.setBounds(75, 11, 50, 50);
 						            casilla_2_sal.setVisible(true);
 						            casilla_3_sal.setVisible(true);
 						            casilla_4_sal.setVisible(true);
-						            casilla_5_sal.setVisible(true);
-						            casilla_6_sal.setVisible(true);
-						            casilla_7_sal.setVisible(true);
-						            casilla_8_sal.setVisible(true);
-						            casilla_9_sal.setVisible(true);
-						            casilla_10_sal.setVisible(true);
-						            casilla_11_sal.setVisible(true);
-						            casilla_12_sal.setVisible(true);
+						            casilla_5_sal.setVisible(false);
+						            casilla_6_sal.setVisible(false);
+						            casilla_7_sal.setVisible(false);
+						            casilla_8_sal.setVisible(false);
+						            casilla_9_sal.setVisible(false);
+						            casilla_10_sal.setVisible(false);
+						            casilla_11_sal.setVisible(false);
+						            casilla_12_sal.setVisible(false);
 						            casilla_13_sal.setVisible(true);
 						            casilla_14_sal.setVisible(true);
 						            casilla_15_sal.setVisible(true);
 						            casilla_16_sal.setVisible(true);
-						            
-						            casilla_1_sal.setText(String.valueOf(resultadoEscalar[0][0]));
-						            casilla_2_sal.setText(String.valueOf(resultadoEscalar[0][1]));
-						            casilla_3_sal.setText(String.valueOf(resultadoEscalar[0][2]));
-						            casilla_4_sal.setText(String.valueOf(resultadoEscalar[0][3]));
-						            
-						            casilla_5_sal.setText(String.valueOf(resultadoEscalar[1][0]));
-						            casilla_6_sal.setText(String.valueOf(resultadoEscalar[1][1]));
-						            casilla_7_sal.setText(String.valueOf(resultadoEscalar[1][2]));
-						            casilla_8_sal.setText(String.valueOf(resultadoEscalar[1][3]));
-						            
-						            casilla_9_sal.setText(String.valueOf(resultadoEscalar[2][0]));
-						            casilla_10_sal.setText(String.valueOf(resultadoEscalar[2][1]));
-						            casilla_11_sal.setText(String.valueOf(resultadoEscalar[2][2]));
-						            casilla_12_sal.setText(String.valueOf(resultadoEscalar[2][3]));
-						            
-						            casilla_13_sal.setText(String.valueOf(resultadoEscalar[3][0]));
-						            casilla_14_sal.setText(String.valueOf(resultadoEscalar[3][1]));
-						            casilla_15_sal.setText(String.valueOf(resultadoEscalar[3][2]));
-						            casilla_16_sal.setText(String.valueOf(resultadoEscalar[3][3]));
-				        			
+						            				        			
 				        		}
 				        		
 				        		else {
@@ -1853,7 +1789,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				        	
 				        	else if(spinnerValor == 3) {
 				        		if(areAllFieldsFilled3X3()) {
-					        		System.out.println("Entra al 3");
 					        		String valor1 = casilla_1_ent.getText();
 						        	String valor2 = casilla_2_ent.getText();
 						        	String valor3 = casilla_3_ent.getText();
@@ -1865,43 +1800,31 @@ public class VentanaMatricesUno extends JInternalFrame{
 						        	String valor9 = casilla_9_ent.getText();
 						        	String escalar_num = num_escalar.getText();
 						        	
-	
+						        	String escalar_num1 = num_escalar.getText();
 						        	
-						        	int[][] matrizInicial = new int[3][3];
-						        	matrizInicial[0][0] = Integer.parseInt(valor1);
-						        	matrizInicial[0][1] = Integer.parseInt(valor2);
-						        	matrizInicial[0][2] = Integer.parseInt(valor3);
-						        	matrizInicial[1][0] = Integer.parseInt(valor4);
-						        	matrizInicial[1][1] = Integer.parseInt(valor5);
-						        	matrizInicial[1][2] = Integer.parseInt(valor6);
-						        	matrizInicial[2][0] = Integer.parseInt(valor7);
-						        	matrizInicial[2][1] = Integer.parseInt(valor8);
-						        	matrizInicial[2][2] = Integer.parseInt(valor9);
+						        	int[] vector1 = new int[3];
+						        	int[] vector2 = new int[3];
+						        	vector1[0] = Integer.parseInt(valor1);
+						        	vector1[1] = Integer.parseInt(valor2);
+						        	vector1[2] = Integer.parseInt(valor3);
+						        	
+						        	vector2[0] = Integer.parseInt(valor7);
+						        	vector2[1] = Integer.parseInt(valor8);
+						        	vector2[2] = Integer.parseInt(valor9);
+						        							        	
 						        	int numEscalar = Integer.parseInt(escalar_num);
 						        	
-						        	
-						
-						        	int[][] resultadoEscalar = MatricesOperacion.calcularEscalar(matrizInicial, numEscalar);	
+						        	multEscalar(vector1, vector2, numEscalar, spinnerValor);
 	
 						    		casilla_1_sal.setBounds(80, 11, 70, 70);
 						            casilla_2_sal.setVisible(true);
 						            casilla_3_sal.setVisible(true);
-						            casilla_4_sal.setVisible(true);
-						            casilla_5_sal.setVisible(true);
-						            casilla_6_sal.setVisible(true);
+						            casilla_4_sal.setVisible(false);
+						            casilla_5_sal.setVisible(false);
+						            casilla_6_sal.setVisible(false);
 						            casilla_7_sal.setVisible(true);
 						            casilla_8_sal.setVisible(true);
-						            casilla_9_sal.setVisible(true);
-						            
-						            casilla_1_sal.setText(String.valueOf(resultadoEscalar[0][0]));
-						            casilla_2_sal.setText(String.valueOf(resultadoEscalar[0][1]));
-						            casilla_3_sal.setText(String.valueOf(resultadoEscalar[0][2]));
-						            casilla_4_sal.setText(String.valueOf(resultadoEscalar[1][0]));
-						            casilla_5_sal.setText(String.valueOf(resultadoEscalar[1][1]));
-						            casilla_6_sal.setText(String.valueOf(resultadoEscalar[1][2]));
-						            casilla_7_sal.setText(String.valueOf(resultadoEscalar[2][0]));
-						            casilla_8_sal.setText(String.valueOf(resultadoEscalar[2][1]));
-						            casilla_9_sal.setText(String.valueOf(resultadoEscalar[2][2]));						        			
+						            casilla_9_sal.setVisible(true);						            
 				        		}
 				        		
 					        	else {
@@ -1911,7 +1834,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				        	
 				        	else {
 				        		if(areAllFieldsFilled5x5()) {
-					        		System.out.println("Entra al 3");
 					        		String valor1 = casilla_1_ent.getText();
 						        	String valor2 = casilla_2_ent.getText();
 						        	String valor3 = casilla_3_ent.getText();
@@ -1939,44 +1861,23 @@ public class VentanaMatricesUno extends JInternalFrame{
 						        	String valor25 = casilla_25_ent.getText();
 						        	String escalar_num = num_escalar.getText();
 						        	
-	
+						        	int[] vector1 = new int[5];
+						        	int[] vector2 = new int[5];
+						        	vector1[0] = Integer.parseInt(valor1);
+						        	vector1[1] = Integer.parseInt(valor2);
+						        	vector1[2] = Integer.parseInt(valor3);
+						        	vector1[3] = Integer.parseInt(valor4);
+						        	vector1[4] = Integer.parseInt(valor5);
 						        	
-						        	int[][] matrizInicial = new int[5][5];
-						        	matrizInicial[0][0] = Integer.parseInt(valor1);
-						        	matrizInicial[0][1] = Integer.parseInt(valor2);
-						        	matrizInicial[0][2] = Integer.parseInt(valor3);
-						        	matrizInicial[0][3] = Integer.parseInt(valor4);
-						        	matrizInicial[0][4] = Integer.parseInt(valor5);
-						        	
-						        	matrizInicial[1][0] = Integer.parseInt(valor6);
-						        	matrizInicial[1][1] = Integer.parseInt(valor7);
-						        	matrizInicial[1][2] = Integer.parseInt(valor8);
-						        	matrizInicial[1][3] = Integer.parseInt(valor9);
-						        	matrizInicial[1][4] = Integer.parseInt(valor10);
-						        	
-						        	matrizInicial[2][0] = Integer.parseInt(valor11);
-						        	matrizInicial[2][1] = Integer.parseInt(valor12);
-						        	matrizInicial[2][2] = Integer.parseInt(valor13);
-						        	matrizInicial[2][3] = Integer.parseInt(valor14);
-						        	matrizInicial[2][4] = Integer.parseInt(valor15);
-						        	
-						        	matrizInicial[3][0] = Integer.parseInt(valor16);
-						        	matrizInicial[3][1] = Integer.parseInt(valor17);
-						        	matrizInicial[3][2] = Integer.parseInt(valor18);
-						        	matrizInicial[3][3] = Integer.parseInt(valor19);
-						        	matrizInicial[3][4] = Integer.parseInt(valor20);
-						        	
-						        	matrizInicial[4][0] = Integer.parseInt(valor21);
-						        	matrizInicial[4][1] = Integer.parseInt(valor22);
-						        	matrizInicial[4][2] = Integer.parseInt(valor23);
-						        	matrizInicial[4][3] = Integer.parseInt(valor24);
-						        	matrizInicial[4][4] = Integer.parseInt(valor25);
-
+						        	vector2[0] = Integer.parseInt(valor21);
+						        	vector2[1] = Integer.parseInt(valor22);
+						        	vector2[2] = Integer.parseInt(valor23);
+						        	vector2[3] = Integer.parseInt(valor24);
+						        	vector2[4] = Integer.parseInt(valor25);
+						        							        	
 						        	int numEscalar = Integer.parseInt(escalar_num);
 						        	
-						        	
-						
-						        	int[][] resultadoEscalar = MatricesOperacion.calcularEscalar(matrizInicial, numEscalar);	
+						        	multEscalar(vector1, vector2, numEscalar, spinnerValor);
 						    		casilla_1_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
 						    		casilla_2_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
 						    		casilla_3_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
@@ -2034,53 +1935,27 @@ public class VentanaMatricesUno extends JInternalFrame{
 						            casilla_3_sal.setVisible(true);
 						            casilla_4_sal.setVisible(true);
 						            casilla_5_sal.setVisible(true);
-						            casilla_6_sal.setVisible(true);
-						            casilla_7_sal.setVisible(true);
-						            casilla_8_sal.setVisible(true);
-						            casilla_9_sal.setVisible(true);
-						            casilla_10_sal.setVisible(true);
-						            casilla_11_sal.setVisible(true);
-						            casilla_12_sal.setVisible(true);
-						            casilla_13_sal.setVisible(true);
-						            casilla_14_sal.setVisible(true);
-						            casilla_15_sal.setVisible(true);
-						            casilla_16_sal.setVisible(true);
-						            casilla_17_sal.setVisible(true);
-						            casilla_18_sal.setVisible(true);
-						            casilla_19_sal.setVisible(true);
-						            casilla_20_sal.setVisible(true);
+						            casilla_6_sal.setVisible(false);
+						            casilla_7_sal.setVisible(false);
+						            casilla_8_sal.setVisible(false);
+						            casilla_9_sal.setVisible(false);
+						            casilla_10_sal.setVisible(false);
+						            casilla_11_sal.setVisible(false);
+						            casilla_12_sal.setVisible(false);
+						            casilla_13_sal.setVisible(false);
+						            casilla_14_sal.setVisible(false);
+						            casilla_15_sal.setVisible(false);
+						            casilla_16_sal.setVisible(false);
+						            casilla_17_sal.setVisible(false);
+						            casilla_18_sal.setVisible(false);
+						            casilla_19_sal.setVisible(false);
+						            casilla_20_sal.setVisible(false);
 						            casilla_21_sal.setVisible(true);
 						            casilla_22_sal.setVisible(true);
 						            casilla_23_sal.setVisible(true);
 						            casilla_24_sal.setVisible(true);
 						            casilla_25_sal.setVisible(true);
 						            
-						            casilla_1_sal.setText(String.valueOf(resultadoEscalar[0][0]));
-						            casilla_2_sal.setText(String.valueOf(resultadoEscalar[0][1]));
-						            casilla_3_sal.setText(String.valueOf(resultadoEscalar[0][2]));
-						            casilla_4_sal.setText(String.valueOf(resultadoEscalar[0][3]));
-						            casilla_5_sal.setText(String.valueOf(resultadoEscalar[0][4]));
-						            casilla_6_sal.setText(String.valueOf(resultadoEscalar[1][0]));
-						            casilla_7_sal.setText(String.valueOf(resultadoEscalar[1][1]));
-						            casilla_8_sal.setText(String.valueOf(resultadoEscalar[1][2]));
-						            casilla_9_sal.setText(String.valueOf(resultadoEscalar[1][3]));			
-						            casilla_10_sal.setText(String.valueOf(resultadoEscalar[1][4]));
-						            casilla_11_sal.setText(String.valueOf(resultadoEscalar[2][0]));
-						            casilla_12_sal.setText(String.valueOf(resultadoEscalar[2][1]));
-						            casilla_13_sal.setText(String.valueOf(resultadoEscalar[2][2]));
-						            casilla_14_sal.setText(String.valueOf(resultadoEscalar[2][3]));
-						            casilla_15_sal.setText(String.valueOf(resultadoEscalar[2][4]));
-						            casilla_16_sal.setText(String.valueOf(resultadoEscalar[3][0]));
-						            casilla_17_sal.setText(String.valueOf(resultadoEscalar[3][1]));
-						            casilla_18_sal.setText(String.valueOf(resultadoEscalar[3][2]));		
-						            casilla_19_sal.setText(String.valueOf(resultadoEscalar[3][3]));
-						            casilla_20_sal.setText(String.valueOf(resultadoEscalar[3][4]));
-						            casilla_21_sal.setText(String.valueOf(resultadoEscalar[4][0]));
-						            casilla_22_sal.setText(String.valueOf(resultadoEscalar[4][1]));
-						            casilla_23_sal.setText(String.valueOf(resultadoEscalar[4][2]));
-						            casilla_24_sal.setText(String.valueOf(resultadoEscalar[4][3]));
-						            casilla_25_sal.setText(String.valueOf(resultadoEscalar[4][4]));
-	
 				        		}
 				        		
 					        	else {
@@ -2097,9 +1972,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				        	   !casilla_1_ent.getText().isEmpty() && 
 				               !casilla_2_ent.getText().isEmpty() && 
 				               !casilla_3_ent.getText().isEmpty() && 
-				               !casilla_4_ent.getText().isEmpty() && 
-				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
 				               !casilla_7_ent.getText().isEmpty() && 
 				               !casilla_8_ent.getText().isEmpty() && 
 				               !casilla_9_ent.getText().isEmpty();
@@ -2111,14 +1983,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				               !casilla_2_ent.getText().isEmpty() && 
 				               !casilla_3_ent.getText().isEmpty() && 
 				               !casilla_4_ent.getText().isEmpty() && 
-				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
-				               !casilla_7_ent.getText().isEmpty() && 
-				               !casilla_8_ent.getText().isEmpty() && 
-				               !casilla_9_ent.getText().isEmpty() && 
-				               !casilla_10_ent.getText().isEmpty() && 
-				               !casilla_11_ent.getText().isEmpty() && 
-				               !casilla_12_ent.getText().isEmpty() && 
 				               !casilla_13_ent.getText().isEmpty() && 
 				               !casilla_14_ent.getText().isEmpty() && 
 				               !casilla_15_ent.getText().isEmpty() && 
@@ -2132,21 +1996,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				               !casilla_3_ent.getText().isEmpty() && 
 				               !casilla_4_ent.getText().isEmpty() && 
 				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
-				               !casilla_7_ent.getText().isEmpty() && 
-				               !casilla_8_ent.getText().isEmpty() && 
-				               !casilla_9_ent.getText().isEmpty() && 
-				               !casilla_10_ent.getText().isEmpty() && 
-				               !casilla_11_ent.getText().isEmpty() && 
-				               !casilla_12_ent.getText().isEmpty() && 
-				               !casilla_13_ent.getText().isEmpty() && 
-				               !casilla_14_ent.getText().isEmpty() && 
-				               !casilla_15_ent.getText().isEmpty() && 
-				               !casilla_16_ent.getText().isEmpty() && 
-				               !casilla_17_ent.getText().isEmpty() && 
-				               !casilla_18_ent.getText().isEmpty() && 
-				               !casilla_19_ent.getText().isEmpty() && 
-				               !casilla_20_ent.getText().isEmpty() && 
 				               !casilla_21_ent.getText().isEmpty() && 
 				               !casilla_22_ent.getText().isEmpty() && 
 				               !casilla_23_ent.getText().isEmpty() && 
@@ -2156,8 +2005,15 @@ public class VentanaMatricesUno extends JInternalFrame{
 				});
 
 				determinante.addMouseListener(new java.awt.event.MouseAdapter() {
-
-					@Override
+				    @Override
+				    public void mouseEntered(MouseEvent e) {
+				        calc_determinante.setForeground(new Color(205, 205, 205));
+				    }
+				    @Override
+				    public void mouseExited(MouseEvent e) {
+				        calc_determinante.setForeground(letrasColor);    
+				    }
+				    @Override
 					public void mouseClicked(MouseEvent e) {
 
 			        	if(spinnerValor == 4) {
@@ -2216,7 +2072,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 						    		casilla_25_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
 
 									
-						        	System.out.println("Det 4");	
 					        		String valor1 = casilla_1_ent.getText();
 						        	String valor2 = casilla_2_ent.getText();
 						        	String valor3 = casilla_3_ent.getText();
@@ -2234,33 +2089,24 @@ public class VentanaMatricesUno extends JInternalFrame{
 						        	String valor15 = casilla_15_ent.getText();
 						        	String valor16 = casilla_16_ent.getText();
 				        	
-						        	int[][] matrizInicial = new int[4][4];
-						        	matrizInicial[0][0] = Integer.parseInt(valor1);
-						        	matrizInicial[0][1] = Integer.parseInt(valor2);
-						        	matrizInicial[0][2] = Integer.parseInt(valor3);
-						        	matrizInicial[0][3] = Integer.parseInt(valor4);
+						        	int[] vector1 = new int[5];
+						        	int[] vector2 = new int[5];
+						        	vector1[0] = Integer.parseInt(valor1);
+						        	vector1[1] = Integer.parseInt(valor2);
+						        	vector1[2] = Integer.parseInt(valor3);
+						        	vector1[3] = Integer.parseInt(valor4);
 						        	
-						        	matrizInicial[1][0] = Integer.parseInt(valor5);
-						        	matrizInicial[1][1] = Integer.parseInt(valor6);
-						        	matrizInicial[1][2] = Integer.parseInt(valor7);
-						        	matrizInicial[1][3] = Integer.parseInt(valor8);
-						        	
-						        	matrizInicial[2][0] = Integer.parseInt(valor9);
-						        	matrizInicial[2][1] = Integer.parseInt(valor10);
-						        	matrizInicial[2][2] = Integer.parseInt(valor11);
-						        	matrizInicial[2][3] = Integer.parseInt(valor12);
-						        	
-						        	matrizInicial[3][0] = Integer.parseInt(valor13);
-						        	matrizInicial[3][1] = Integer.parseInt(valor14);
-						        	matrizInicial[3][2] = Integer.parseInt(valor15);
-						        	matrizInicial[3][3] = Integer.parseInt(valor16);
-					        	
-						        	int resultadoDeterminante = MatricesOperacion.calcularDeterminante4x4(matrizInicial);	
+						        	vector2[0] = Integer.parseInt(valor13);
+						        	vector2[1] = Integer.parseInt(valor14);
+						        	vector2[2] = Integer.parseInt(valor15);
+						        	vector2[3] = Integer.parseInt(valor16);
+						        							        							        	
+						        	vectorSuma(vector1, vector2, spinnerValor);	
 		
-						            casilla_2_sal.setVisible(false);
-						            casilla_3_sal.setVisible(false);
-						            casilla_4_sal.setVisible(false);
-						            casilla_5_sal.setVisible(false);
+						            casilla_1_sal.setVisible(true);
+						            casilla_2_sal.setVisible(true);
+						            casilla_3_sal.setVisible(true);
+						            casilla_4_sal.setVisible(true);
 						            casilla_6_sal.setVisible(false);
 						            casilla_7_sal.setVisible(false);
 						            casilla_8_sal.setVisible(false);
@@ -2273,8 +2119,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 						            casilla_15_sal.setVisible(false);
 						            casilla_16_sal.setVisible(false);
 						            
-						            casilla_1_sal.setBounds(154, 80, 100, 100);		
-						            casilla_1_sal.setText(String.valueOf(resultadoDeterminante));
 				        	}
 								
 							else {
@@ -2284,7 +2128,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 			        	
 		        		else if(spinnerValor == 3) {
 		        				if(areAllFieldsFilled3X3()) {
-			        					System.out.println("Det 3");
 						        		String valor1 = casilla_1_ent.getText();
 							        	String valor2 = casilla_2_ent.getText();
 							        	String valor3 = casilla_3_ent.getText();
@@ -2295,21 +2138,20 @@ public class VentanaMatricesUno extends JInternalFrame{
 							        	String valor8 = casilla_8_ent.getText();
 							        	String valor9 = casilla_9_ent.getText();
 							        	
-							        	int[][] matrizInicial = new int[3][3];
-							        	matrizInicial[0][0] = Integer.parseInt(valor1);
-							        	matrizInicial[0][1] = Integer.parseInt(valor2);
-							        	matrizInicial[0][2] = Integer.parseInt(valor3);
-							        	matrizInicial[1][0] = Integer.parseInt(valor4);
-							        	matrizInicial[1][1] = Integer.parseInt(valor5);
-							        	matrizInicial[1][2] = Integer.parseInt(valor6);
-							        	matrizInicial[2][0] = Integer.parseInt(valor7);
-							        	matrizInicial[2][1] = Integer.parseInt(valor8);
-							        	matrizInicial[2][2] = Integer.parseInt(valor9);
+							        	int[] vector1 = new int[5];
+							        	int[] vector2 = new int[5];
+							        	vector1[0] = Integer.parseInt(valor1);
+							        	vector1[1] = Integer.parseInt(valor2);
+							        	vector1[2] = Integer.parseInt(valor3);
 							        	
-							        	int resultadoDeterminante = MatricesOperacion.calcularDeterminante3x3(matrizInicial);	
-	
-							            casilla_2_sal.setVisible(false);
-							            casilla_3_sal.setVisible(false);
+							        	vector2[0] = Integer.parseInt(valor7);
+							        	vector2[1] = Integer.parseInt(valor8);
+							        	vector2[2] = Integer.parseInt(valor9);
+							        							        							        	
+							        	vectorSuma(vector1, vector2, spinnerValor);	
+							            casilla_1_sal.setVisible(true);
+							            casilla_2_sal.setVisible(true);
+							            casilla_3_sal.setVisible(true);
 							            casilla_4_sal.setVisible(false);
 							            casilla_5_sal.setVisible(false);
 							            casilla_6_sal.setVisible(false);
@@ -2322,10 +2164,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 							            casilla_13_sal.setVisible(false);
 							            casilla_14_sal.setVisible(false);
 							            casilla_15_sal.setVisible(false);
-							            casilla_16_sal.setVisible(false);
-							            
-							            casilla_1_sal.setBounds(153, 80, 100, 100);		   
-							            casilla_1_sal.setText(String.valueOf(resultadoDeterminante));
+							            casilla_16_sal.setVisible(false);							            
 		        				}
 				        		
 		        				else {
@@ -2416,43 +2255,27 @@ public class VentanaMatricesUno extends JInternalFrame{
 					        	String valor24 = casilla_24_ent.getText();
 					        	String valor25 = casilla_25_ent.getText();
 			        	
-					        	int[][] matrizInicial = new int[5][5];
-					        	matrizInicial[0][0] = Integer.parseInt(valor1);
-					        	matrizInicial[0][1] = Integer.parseInt(valor2);
-					        	matrizInicial[0][2] = Integer.parseInt(valor3);
-					        	matrizInicial[0][3] = Integer.parseInt(valor4);
-					        	matrizInicial[0][4] = Integer.parseInt(valor5);
+					        	int[] vector1 = new int[5];
+					        	int[] vector2 = new int[5];
+					        	vector1[0] = Integer.parseInt(valor1);
+					        	vector1[1] = Integer.parseInt(valor2);
+					        	vector1[2] = Integer.parseInt(valor3);
+					        	vector1[3] = Integer.parseInt(valor4);
+					        	vector1[4] = Integer.parseInt(valor5);
 					        	
-					        	matrizInicial[1][0] = Integer.parseInt(valor6);
-					        	matrizInicial[1][1] = Integer.parseInt(valor7);
-					        	matrizInicial[1][2] = Integer.parseInt(valor8);
-					        	matrizInicial[1][3] = Integer.parseInt(valor9);
-					        	matrizInicial[1][4] = Integer.parseInt(valor10);
+					        	vector2[0] = Integer.parseInt(valor21);
+					        	vector2[1] = Integer.parseInt(valor22);
+					        	vector2[2] = Integer.parseInt(valor23);
+					        	vector2[3] = Integer.parseInt(valor24);
+					        	vector2[4] = Integer.parseInt(valor25);
 					        	
-					        	matrizInicial[2][0] = Integer.parseInt(valor11);
-					        	matrizInicial[2][1] = Integer.parseInt(valor12);
-					        	matrizInicial[2][2] = Integer.parseInt(valor13);
-					        	matrizInicial[2][3] = Integer.parseInt(valor14);
-					        	matrizInicial[2][4] = Integer.parseInt(valor15);
-					        	
-					        	matrizInicial[3][0] = Integer.parseInt(valor16);
-					        	matrizInicial[3][1] = Integer.parseInt(valor17);
-					        	matrizInicial[3][2] = Integer.parseInt(valor18);
-					        	matrizInicial[3][3] = Integer.parseInt(valor19);
-					        	matrizInicial[3][4] = Integer.parseInt(valor20);
-					        	
-					        	matrizInicial[4][0] = Integer.parseInt(valor21);
-					        	matrizInicial[4][1] = Integer.parseInt(valor22);
-					        	matrizInicial[4][2] = Integer.parseInt(valor23);
-					        	matrizInicial[4][3] = Integer.parseInt(valor24);
-					        	matrizInicial[4][4] = Integer.parseInt(valor25);
-				        	
-					        	int resultadoDeterminante = MatricesOperacion.calcularDeterminante5x5(matrizInicial);	
+					        	vectorSuma(vector1, vector2, spinnerValor);
 	
-					            casilla_2_sal.setVisible(false);
-					            casilla_3_sal.setVisible(false);
-					            casilla_4_sal.setVisible(false);
-					            casilla_5_sal.setVisible(false);
+					            casilla_1_sal.setVisible(true);
+					            casilla_2_sal.setVisible(true);
+					            casilla_3_sal.setVisible(true);
+					            casilla_4_sal.setVisible(true);
+					            casilla_5_sal.setVisible(true);
 					            casilla_6_sal.setVisible(false);
 					            casilla_7_sal.setVisible(false);
 					            casilla_8_sal.setVisible(false);
@@ -2472,10 +2295,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 					            casilla_22_sal.setVisible(false);
 					            casilla_23_sal.setVisible(false);
 					            casilla_24_sal.setVisible(false);
-					            casilla_25_sal.setVisible(false);
-					            
-					            casilla_1_sal.setBounds(154, 80, 100, 100);		
-					            casilla_1_sal.setText(String.valueOf(resultadoDeterminante));
+					            casilla_25_sal.setVisible(false);					            
 			        	}
 							
 						else {
@@ -2489,10 +2309,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 				        return !casilla_1_ent.getText().isEmpty() && 
 				               !casilla_2_ent.getText().isEmpty() && 
 				               !casilla_3_ent.getText().isEmpty() && 
-				               !casilla_4_ent.getText().isEmpty() && 
-				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
-				               !casilla_7_ent.getText().isEmpty() && 
+				               !casilla_7_ent.getText().isEmpty() &&
 				               !casilla_8_ent.getText().isEmpty() && 
 				               !casilla_9_ent.getText().isEmpty();
 				    }
@@ -2502,14 +2319,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				               !casilla_2_ent.getText().isEmpty() && 
 				               !casilla_3_ent.getText().isEmpty() && 
 				               !casilla_4_ent.getText().isEmpty() && 
-				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
-				               !casilla_7_ent.getText().isEmpty() && 
-				               !casilla_8_ent.getText().isEmpty() && 
-				               !casilla_9_ent.getText().isEmpty() && 
-				               !casilla_10_ent.getText().isEmpty() && 
-				               !casilla_11_ent.getText().isEmpty() && 
-				               !casilla_12_ent.getText().isEmpty() && 
 				               !casilla_13_ent.getText().isEmpty() && 
 				               !casilla_14_ent.getText().isEmpty() && 
 				               !casilla_15_ent.getText().isEmpty() && 
@@ -2522,21 +2331,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				               !casilla_3_ent.getText().isEmpty() && 
 				               !casilla_4_ent.getText().isEmpty() && 
 				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
-				               !casilla_7_ent.getText().isEmpty() && 
-				               !casilla_8_ent.getText().isEmpty() && 
-				               !casilla_9_ent.getText().isEmpty() && 
-				               !casilla_10_ent.getText().isEmpty() && 
-				               !casilla_11_ent.getText().isEmpty() && 
-				               !casilla_12_ent.getText().isEmpty() && 
-				               !casilla_13_ent.getText().isEmpty() && 
-				               !casilla_14_ent.getText().isEmpty() && 
-				               !casilla_15_ent.getText().isEmpty() && 
-				               !casilla_16_ent.getText().isEmpty() && 
-				               !casilla_17_ent.getText().isEmpty() && 
-				               !casilla_18_ent.getText().isEmpty() && 
-				               !casilla_19_ent.getText().isEmpty() && 
-				               !casilla_20_ent.getText().isEmpty() && 
 				               !casilla_21_ent.getText().isEmpty() && 
 				               !casilla_22_ent.getText().isEmpty() && 
 				               !casilla_23_ent.getText().isEmpty() && 
@@ -2628,73 +2422,35 @@ public class VentanaMatricesUno extends JInternalFrame{
 					            String valor15 = casilla_15_ent.getText();
 					            String valor16 = casilla_16_ent.getText();
 					            
-					            int[][] matrizInicial = new int[4][4];
-					        	matrizInicial[0][0] = Integer.parseInt(valor1);
-					        	matrizInicial[0][1] = Integer.parseInt(valor2);
-					        	matrizInicial[0][2] = Integer.parseInt(valor3);
-					        	matrizInicial[0][3] = Integer.parseInt(valor4);
-
-					        	matrizInicial[1][0] = Integer.parseInt(valor5);
-					        	matrizInicial[1][1] = Integer.parseInt(valor6);
-					        	matrizInicial[1][2] = Integer.parseInt(valor7);
-					        	matrizInicial[1][3] = Integer.parseInt(valor8);
+					        	int[] vector1 = new int[4];
+					        	int[] vector2 = new int[4];
+					        	vector1[0] = Integer.parseInt(valor1);
+					        	vector1[1] = Integer.parseInt(valor2);
+					        	vector1[2] = Integer.parseInt(valor3);
+					        	vector1[3] = Integer.parseInt(valor4);
 					        	
-					        	matrizInicial[2][0] = Integer.parseInt(valor9);
-					        	matrizInicial[2][1] = Integer.parseInt(valor10);
-					        	matrizInicial[2][2] = Integer.parseInt(valor11);
-					        	matrizInicial[2][3] = Integer.parseInt(valor12);
+					        	vector2[0] = Integer.parseInt(valor13);
+					        	vector2[1] = Integer.parseInt(valor14);
+					        	vector2[2] = Integer.parseInt(valor15);
+					        	vector2[3] = Integer.parseInt(valor16);
 					        	
-					        	matrizInicial[3][0] = Integer.parseInt(valor13);
-					        	matrizInicial[3][1] = Integer.parseInt(valor14);
-					        	matrizInicial[3][2] = Integer.parseInt(valor15);
-					        	matrizInicial[3][3] = Integer.parseInt(valor16);
-					        	
-					        	// Llamado a la logica de calcular inversa
-					        	int resultadoDeterminanteEnInversa = MatricesOperacion.calcularDeterminante3x3(matrizInicial);
-					        	
-					        	if(resultadoDeterminanteEnInversa != 0) {
-					        		String[][] resultadoInversa = MatricesOperacion.calcularInversa(matrizInicial);
+					        	vectorResta(vector1, vector2, spinnerValor);
 						    		casilla_1_sal.setBounds(75, 11, 50, 50);
-						            
-						            casilla_2_sal.setVisible(true);
+						    		casilla_2_sal.setVisible(true);
 						            casilla_3_sal.setVisible(true);
 						            casilla_4_sal.setVisible(true);
-						            casilla_5_sal.setVisible(true);
-						            casilla_6_sal.setVisible(true);
-						            casilla_7_sal.setVisible(true);
-						            casilla_8_sal.setVisible(true);
-						            casilla_9_sal.setVisible(true);
-						            casilla_10_sal.setVisible(true);
-						            casilla_11_sal.setVisible(true);
-						            casilla_12_sal.setVisible(true);
-						            casilla_13_sal.setVisible(true);
-						            casilla_14_sal.setVisible(true);
-						            casilla_15_sal.setVisible(true);
-						            casilla_16_sal.setVisible(true);
-						            
-						            casilla_1_sal.setText(resultadoInversa[0][0]);
-						            casilla_2_sal.setText(resultadoInversa[0][1]);
-						            casilla_3_sal.setText(resultadoInversa[0][2]);
-						            casilla_4_sal.setText(resultadoInversa[0][3]);
-						            casilla_5_sal.setText(resultadoInversa[1][0]);
-						            casilla_6_sal.setText(resultadoInversa[1][1]);
-						            casilla_7_sal.setText(resultadoInversa[1][2]);
-						            casilla_8_sal.setText(resultadoInversa[1][3]);
-						            casilla_9_sal.setText(resultadoInversa[2][0]);
-						            casilla_10_sal.setText(resultadoInversa[2][1]);
-						            casilla_11_sal.setText(resultadoInversa[2][2]);
-						            casilla_12_sal.setText(resultadoInversa[2][3]);
-						            casilla_13_sal.setText(resultadoInversa[3][0]);
-						            casilla_14_sal.setText(resultadoInversa[3][1]);
-						            casilla_15_sal.setText(resultadoInversa[3][2]);
-						            casilla_16_sal.setText(resultadoInversa[3][3]);
-
-					        	}
-					        	
-					        	else {
-					                JOptionPane.showMessageDialog(null, "La matriz no tiene inversa porque su determinante es cero.");
-					                return;
-					        	}
+						            casilla_5_sal.setVisible(false);
+						            casilla_6_sal.setVisible(false);
+						            casilla_7_sal.setVisible(false);
+						            casilla_8_sal.setVisible(false);
+						            casilla_9_sal.setVisible(false);
+						            casilla_10_sal.setVisible(false);
+						            casilla_11_sal.setVisible(false);
+						            casilla_12_sal.setVisible(false);
+						            casilla_13_sal.setVisible(false);
+						            casilla_14_sal.setVisible(false);
+						            casilla_15_sal.setVisible(false);
+						            casilla_16_sal.setVisible(false);					        	
 					        } else {
 					            JOptionPane.showMessageDialog(null, "Por favor, complete todas las casillas antes de continuar.");
 					        }				        	
@@ -2711,57 +2467,36 @@ public class VentanaMatricesUno extends JInternalFrame{
 					            String valor7 = casilla_7_ent.getText();
 					            String valor8 = casilla_8_ent.getText();
 					            String valor9 = casilla_9_ent.getText();
-
-					            int[][] matrizInicial = new int[3][3];
-					        	matrizInicial[0][0] = Integer.parseInt(valor1);
-					        	matrizInicial[0][1] = Integer.parseInt(valor2);
-					        	matrizInicial[0][2] = Integer.parseInt(valor3);
-					        	matrizInicial[1][0] = Integer.parseInt(valor4);
-					        	matrizInicial[1][1] = Integer.parseInt(valor5);
-					        	matrizInicial[1][2] = Integer.parseInt(valor6);
-					        	matrizInicial[2][0] = Integer.parseInt(valor7);
-					        	matrizInicial[2][1] = Integer.parseInt(valor8);
-					        	matrizInicial[2][2] = Integer.parseInt(valor9);
-
-					        	// Llamado a la logica de calcular inversa
-					        	int resultadoDeterminanteEnInversa = MatricesOperacion.calcularDeterminante3x3(matrizInicial);
+					            
+					        	int[] vector1 = new int[3];
+					        	int[] vector2 = new int[3];
+					        	vector1[0] = Integer.parseInt(valor1);
+					        	vector1[1] = Integer.parseInt(valor2);
+					        	vector1[2] = Integer.parseInt(valor3);
 					        	
-					        	if(resultadoDeterminanteEnInversa != 0) {
-					        		String[][] resultadoInversa = MatricesOperacion.calcularInversa(matrizInicial);
+					        	vector2[0] = Integer.parseInt(valor7);
+					        	vector2[1] = Integer.parseInt(valor8);
+					        	vector2[2] = Integer.parseInt(valor9);
+					        	
+					        	vectorResta(vector1, vector2, spinnerValor);						        	
+
 						    		casilla_1_sal.setBounds(80, 11, 70, 70);
 						            
 						            casilla_2_sal.setVisible(true);
 						            casilla_3_sal.setVisible(true);
-						            casilla_4_sal.setVisible(true);
-						            casilla_5_sal.setVisible(true);
-						            casilla_6_sal.setVisible(true);
-						            casilla_7_sal.setVisible(true);
-						            casilla_8_sal.setVisible(true);
-						            casilla_9_sal.setVisible(true);
-						            
-						            casilla_1_sal.setText(resultadoInversa[0][0]);
-						            casilla_2_sal.setText(resultadoInversa[0][1]);
-						            casilla_3_sal.setText(resultadoInversa[0][2]);
-						            casilla_4_sal.setText(resultadoInversa[1][0]);
-						            casilla_5_sal.setText(resultadoInversa[1][1]);
-						            casilla_6_sal.setText(resultadoInversa[1][2]);
-						            casilla_7_sal.setText(resultadoInversa[2][0]);
-						            casilla_8_sal.setText(resultadoInversa[2][1]);
-						            casilla_9_sal.setText(resultadoInversa[2][2]);
-
-					        	}
-					        	
-					        	else {
-					                JOptionPane.showMessageDialog(null, "La matriz no tiene inversa porque su determinante es cero.");
-					                return;
-					        	}
+						            casilla_4_sal.setVisible(false);
+						            casilla_5_sal.setVisible(false);
+						            casilla_6_sal.setVisible(false);
+						            casilla_7_sal.setVisible(false);
+						            casilla_8_sal.setVisible(false);
+						            casilla_9_sal.setVisible(false);
+						            					        	
 					        } else {
 					            JOptionPane.showMessageDialog(null, "Por favor, complete todas las casillas antes de continuar.");
 					        }				        	
 				        }
 				        
 				        else {
-				        	System.out.println("Entra a inversa 5x5");
 				            if (areAllFieldsFilled5x5()) {
 				            	
 					    		casilla_1_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
@@ -2844,93 +2579,51 @@ public class VentanaMatricesUno extends JInternalFrame{
 				                String valor23 = casilla_23_ent.getText();
 				                String valor24 = casilla_24_ent.getText();
 				                String valor25 = casilla_25_ent.getText();
-
-				                int[][] matrizInicial = new int[5][5];
-				                matrizInicial[0][0] = Integer.parseInt(valor1);
-				                matrizInicial[0][1] = Integer.parseInt(valor2);
-				                matrizInicial[0][2] = Integer.parseInt(valor3);
-				                matrizInicial[0][3] = Integer.parseInt(valor4);
-				                matrizInicial[0][4] = Integer.parseInt(valor5);
-
-				                matrizInicial[1][0] = Integer.parseInt(valor6);
-				                matrizInicial[1][1] = Integer.parseInt(valor7);
-				                matrizInicial[1][2] = Integer.parseInt(valor8);
-				                matrizInicial[1][3] = Integer.parseInt(valor9);
-				                matrizInicial[1][4] = Integer.parseInt(valor10);
-
-				                matrizInicial[2][0] = Integer.parseInt(valor11);
-				                matrizInicial[2][1] = Integer.parseInt(valor12);
-				                matrizInicial[2][2] = Integer.parseInt(valor13);
-				                matrizInicial[2][3] = Integer.parseInt(valor14);
-				                matrizInicial[2][4] = Integer.parseInt(valor15);
-
-				                matrizInicial[3][0] = Integer.parseInt(valor16);
-				                matrizInicial[3][1] = Integer.parseInt(valor17);
-				                matrizInicial[3][2] = Integer.parseInt(valor18);
-				                matrizInicial[3][3] = Integer.parseInt(valor19);
-				                matrizInicial[3][4] = Integer.parseInt(valor20);
-
-				                matrizInicial[4][0] = Integer.parseInt(valor21);
-				                matrizInicial[4][1] = Integer.parseInt(valor22);
-				                matrizInicial[4][2] = Integer.parseInt(valor23);
-				                matrizInicial[4][3] = Integer.parseInt(valor24);
-				                matrizInicial[4][4] = Integer.parseInt(valor25);
-
+				                
+					        	int[] vector1 = new int[5];
+					        	int[] vector2 = new int[5];
+					        	vector1[0] = Integer.parseInt(valor1);
+					        	vector1[1] = Integer.parseInt(valor2);
+					        	vector1[2] = Integer.parseInt(valor3);
+					        	vector1[3] = Integer.parseInt(valor4);
+					        	vector1[4] = Integer.parseInt(valor5);
+					        	
+					        	vector2[0] = Integer.parseInt(valor21);
+					        	vector2[1] = Integer.parseInt(valor22);
+					        	vector2[2] = Integer.parseInt(valor23);
+					        	vector2[3] = Integer.parseInt(valor24);
+					        	vector1[4] = Integer.parseInt(valor25);
+					        	vectorResta(vector1, vector2, spinnerValor);	
+					        	
 				                // Asegúrate de que las casillas de salida estén visibles
 				                casilla_1_sal.setVisible(true);
 				                casilla_2_sal.setVisible(true);
 				                casilla_3_sal.setVisible(true);
 				                casilla_4_sal.setVisible(true);
 				                casilla_5_sal.setVisible(true);
-				                casilla_6_sal.setVisible(true);
-				                casilla_7_sal.setVisible(true);
-				                casilla_8_sal.setVisible(true);
-				                casilla_9_sal.setVisible(true);
-				                casilla_10_sal.setVisible(true);
-				                casilla_11_sal.setVisible(true);
-				                casilla_12_sal.setVisible(true);
-				                casilla_13_sal.setVisible(true);
-				                casilla_14_sal.setVisible(true);
-				                casilla_15_sal.setVisible(true);
-				                casilla_16_sal.setVisible(true);
-				                casilla_17_sal.setVisible(true);
-				                casilla_18_sal.setVisible(true);
-				                casilla_19_sal.setVisible(true);
-				                casilla_20_sal.setVisible(true);
-				                casilla_21_sal.setVisible(true);
-				                casilla_22_sal.setVisible(true);
-				                casilla_23_sal.setVisible(true);
-				                casilla_24_sal.setVisible(true);
-				                casilla_25_sal.setVisible(true);
+				                casilla_6_sal.setVisible(false);
+				                casilla_7_sal.setVisible(false);
+				                casilla_8_sal.setVisible(false);
+				                casilla_9_sal.setVisible(false);
+				                casilla_10_sal.setVisible(false);
+				                casilla_11_sal.setVisible(false);
+				                casilla_12_sal.setVisible(false);
+				                casilla_13_sal.setVisible(false);
+				                casilla_14_sal.setVisible(false);
+				                casilla_15_sal.setVisible(false);
+				                casilla_16_sal.setVisible(false);
+				                casilla_17_sal.setVisible(false);
+				                casilla_18_sal.setVisible(false);
+				                casilla_19_sal.setVisible(false);
+				                casilla_20_sal.setVisible(false);
+				                casilla_21_sal.setVisible(false);
+				                casilla_22_sal.setVisible(false);
+				                casilla_23_sal.setVisible(false);
+				                casilla_24_sal.setVisible(false);
+				                casilla_25_sal.setVisible(false);
 
-				                String[][] resultadoInversa = MatricesOperacion.calcularInversa(matrizInicial);
 	      
 					    		casilla_1_sal.setBounds(80, 9, 40, 40);
-					    		casilla_1_sal.setText(resultadoInversa[0][0]);
-					    		casilla_2_sal.setText(resultadoInversa[0][1]);
-					    		casilla_3_sal.setText(resultadoInversa[0][2]);
-					    		casilla_4_sal.setText(resultadoInversa[0][3]);
-					    		casilla_5_sal.setText(resultadoInversa[0][4]);
-					    		casilla_6_sal.setText(resultadoInversa[1][0]);
-					    		casilla_7_sal.setText(resultadoInversa[1][1]);
-					    		casilla_8_sal.setText(resultadoInversa[1][2]);
-					    		casilla_9_sal.setText(resultadoInversa[1][3]);
-					    		casilla_10_sal.setText(resultadoInversa[1][4]);
-					    		casilla_11_sal.setText(resultadoInversa[2][0]);
-					    		casilla_12_sal.setText(resultadoInversa[2][1]);
-					    		casilla_13_sal.setText(resultadoInversa[2][2]);
-					    		casilla_14_sal.setText(resultadoInversa[2][3]);
-					    		casilla_15_sal.setText(resultadoInversa[2][4]);
-					    		casilla_16_sal.setText(resultadoInversa[3][0]);
-					    		casilla_17_sal.setText(resultadoInversa[3][1]);
-					    		casilla_18_sal.setText(resultadoInversa[3][2]);
-					    		casilla_19_sal.setText(resultadoInversa[3][3]);
-					    		casilla_20_sal.setText(resultadoInversa[3][4]);
-					    		casilla_21_sal.setText(resultadoInversa[4][0]);
-					    		casilla_22_sal.setText(resultadoInversa[4][1]);
-					    		casilla_23_sal.setText(resultadoInversa[4][2]);
-					    		casilla_24_sal.setText(resultadoInversa[4][3]);
-					    		casilla_25_sal.setText(resultadoInversa[4][4]);
 				            }
 				            
 				        	else {
@@ -2946,9 +2639,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				        return !casilla_1_ent.getText().isEmpty() && 
 				               !casilla_2_ent.getText().isEmpty() && 
 				               !casilla_3_ent.getText().isEmpty() && 
-				               !casilla_4_ent.getText().isEmpty() && 
-				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
 				               !casilla_7_ent.getText().isEmpty() && 
 				               !casilla_8_ent.getText().isEmpty() && 
 				               !casilla_9_ent.getText().isEmpty();
@@ -2959,14 +2649,6 @@ public class VentanaMatricesUno extends JInternalFrame{
 				               !casilla_2_ent.getText().isEmpty() && 
 				               !casilla_3_ent.getText().isEmpty() && 
 				               !casilla_4_ent.getText().isEmpty() && 
-				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
-				               !casilla_7_ent.getText().isEmpty() && 
-				               !casilla_8_ent.getText().isEmpty() && 
-				               !casilla_9_ent.getText().isEmpty() && 
-				               !casilla_10_ent.getText().isEmpty() && 
-				               !casilla_11_ent.getText().isEmpty() && 
-				               !casilla_12_ent.getText().isEmpty() && 
 				               !casilla_13_ent.getText().isEmpty() && 
 				               !casilla_14_ent.getText().isEmpty() && 
 				               !casilla_15_ent.getText().isEmpty() && 
@@ -2979,31 +2661,586 @@ public class VentanaMatricesUno extends JInternalFrame{
 				               !casilla_3_ent.getText().isEmpty() && 
 				               !casilla_4_ent.getText().isEmpty() && 
 				               !casilla_5_ent.getText().isEmpty() && 
-				               !casilla_6_ent.getText().isEmpty() && 
-				               !casilla_7_ent.getText().isEmpty() && 
-				               !casilla_8_ent.getText().isEmpty() && 
-				               !casilla_9_ent.getText().isEmpty() && 
-				               !casilla_10_ent.getText().isEmpty() && 
-				               !casilla_11_ent.getText().isEmpty() && 
-				               !casilla_12_ent.getText().isEmpty() && 
-				               !casilla_13_ent.getText().isEmpty() && 
-				               !casilla_14_ent.getText().isEmpty() && 
-				               !casilla_15_ent.getText().isEmpty() && 
-				               !casilla_16_ent.getText().isEmpty() && 
-				               !casilla_17_ent.getText().isEmpty() && 
-				               !casilla_18_ent.getText().isEmpty() && 
-				               !casilla_19_ent.getText().isEmpty() && 
-				               !casilla_20_ent.getText().isEmpty() && 
 				               !casilla_21_ent.getText().isEmpty() && 
 				               !casilla_22_ent.getText().isEmpty() && 
 				               !casilla_23_ent.getText().isEmpty() && 
 				               !casilla_24_ent.getText().isEmpty() && 
 				               !casilla_25_ent.getText().isEmpty();
 				    }
-				});		
+				});
+				
+				mult_escalar_1.addMouseListener(new java.awt.event.MouseAdapter() {
+				    @Override
+				    public void mouseEntered(MouseEvent e) {
+				        calc_escalar_1.setForeground(new Color(205, 205, 205));
+				    }
+				    @Override
+				    public void mouseExited(MouseEvent e) {
+				        calc_escalar_1.setForeground(letrasColor);    
+				    }
+				    @Override
+				    public void mouseClicked(java.awt.event.MouseEvent evt) {
+				        	if(spinnerValor == 4) {
+				        		if(areAllFieldsFilled4X4()) {
+				        			
+						    		casilla_1_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_2_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_3_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_4_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_5_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_6_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_7_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_8_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_9_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_10_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_11_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_12_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_13_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_14_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_15_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_16_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_17_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_18_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_19_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_20_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_21_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_22_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_23_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_24_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_25_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		
+						    		casilla_1_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_2_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_3_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_4_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_5_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_6_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_7_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_8_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_9_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_10_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_11_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_12_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_13_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_14_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_15_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_16_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_17_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_18_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_19_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_20_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_21_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_22_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_23_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_24_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+						    		casilla_25_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+
+				        			
+					        		String valor1 = casilla_1_ent.getText();
+						        	String valor2 = casilla_2_ent.getText();
+						        	String valor3 = casilla_3_ent.getText();
+						        	String valor4 = casilla_4_ent.getText();
+						        	String valor5 = casilla_5_ent.getText();
+						        	String valor6 = casilla_6_ent.getText();
+						        	String valor7 = casilla_7_ent.getText();
+						        	String valor8 = casilla_8_ent.getText();
+						        	String valor9 = casilla_9_ent.getText();
+						        	String valor10 = casilla_10_ent.getText();
+						        	String valor11 = casilla_11_ent.getText();
+						        	String valor12 = casilla_12_ent.getText();
+						        	String valor13 = casilla_13_ent.getText();
+						        	String valor14 = casilla_14_ent.getText();
+						        	String valor15 = casilla_15_ent.getText();
+						        	String valor16 = casilla_16_ent.getText();
+		
+						        	String escalar_num = num_escalar.getText();
+						        	
+						        	int[] vector1 = new int[4];
+						        	int[] vector2 = new int[4];
+						        	vector1[0] = Integer.parseInt(valor1);
+						        	vector1[1] = Integer.parseInt(valor2);
+						        	vector1[2] = Integer.parseInt(valor3);
+						        	vector1[3] = Integer.parseInt(valor4);
+						        	
+						        	vector2[0] = Integer.parseInt(valor13);
+						        	vector2[1] = Integer.parseInt(valor14);
+						        	vector2[2] = Integer.parseInt(valor15);
+						        	vector2[3] = Integer.parseInt(valor16);
+						        							        	
+						        	int numEscalar = Integer.parseInt(escalar_num);
+						        	
+						        	productoEscalar(vector1, vector2, numEscalar, spinnerValor);
+		
+						    		casilla_1_sal.setBounds(75, 11, 50, 50);
+						    		casilla_1_sal.setVisible(false);
+						            casilla_2_sal.setVisible(false);
+						            casilla_3_sal.setVisible(false);
+						            casilla_4_sal.setVisible(false);
+						            casilla_5_sal.setVisible(true);
+						            casilla_6_sal.setVisible(false);
+						            casilla_7_sal.setVisible(false);
+						            casilla_8_sal.setVisible(false);
+						            casilla_9_sal.setVisible(false);
+						            casilla_10_sal.setVisible(false);
+						            casilla_11_sal.setVisible(false);
+						            casilla_12_sal.setVisible(false);
+						            casilla_13_sal.setVisible(false);
+						            casilla_14_sal.setVisible(false);
+						            casilla_15_sal.setVisible(false);
+						            casilla_16_sal.setVisible(false);
+						            				        			
+				        		}
+				        		
+				        		else {
+									JOptionPane.showMessageDialog(null, "Por favor, complete todas las casillas antes de continuar.");						        			
+				        		}
+				        	}
+				        	
+				        	else if(spinnerValor == 3) {
+				        		if(areAllFieldsFilled3X3()) {
+					        		String valor1 = casilla_1_ent.getText();
+						        	String valor2 = casilla_2_ent.getText();
+						        	String valor3 = casilla_3_ent.getText();
+						        	String valor4 = casilla_4_ent.getText();
+						        	String valor5 = casilla_5_ent.getText();
+						        	String valor6 = casilla_6_ent.getText();
+						        	String valor7 = casilla_7_ent.getText();
+						        	String valor8 = casilla_8_ent.getText();
+						        	String valor9 = casilla_9_ent.getText();
+						        	String escalar_num = num_escalar.getText();
+						        	
+						        	String escalar_num1 = num_escalar.getText();
+						        	
+						        	int[] vector1 = new int[3];
+						        	int[] vector2 = new int[3];
+						        	vector1[0] = Integer.parseInt(valor1);
+						        	vector1[1] = Integer.parseInt(valor2);
+						        	vector1[2] = Integer.parseInt(valor3);
+						        	
+						        	vector2[0] = Integer.parseInt(valor7);
+						        	vector2[1] = Integer.parseInt(valor8);
+						        	vector2[2] = Integer.parseInt(valor9);
+						        							        	
+						        	int numEscalar = Integer.parseInt(escalar_num);
+						        	
+						        	productoEscalar(vector1, vector2, numEscalar, spinnerValor);
+	
+						    		casilla_1_sal.setBounds(80, 11, 70, 70);
+						    		casilla_1_sal.setVisible(false);
+						    		casilla_2_sal.setVisible(false);
+						            casilla_3_sal.setVisible(false);
+						            casilla_4_sal.setVisible(false);
+						            casilla_5_sal.setVisible(true);
+						            casilla_6_sal.setVisible(false);
+						            casilla_7_sal.setVisible(false);
+						            casilla_8_sal.setVisible(false);
+						            casilla_9_sal.setVisible(false);						            
+				        		}
+				        		
+					        	else {
+									JOptionPane.showMessageDialog(null, "Por favor, complete todas las casillas antes de continuar.");						        		
+					        	}
+				        	}
+				        	
+				        	else {
+				        		if(areAllFieldsFilled5x5()) {
+					        		String valor1 = casilla_1_ent.getText();
+						        	String valor2 = casilla_2_ent.getText();
+						        	String valor3 = casilla_3_ent.getText();
+						        	String valor4 = casilla_4_ent.getText();
+						        	String valor5 = casilla_5_ent.getText();
+						        	String valor6 = casilla_6_ent.getText();
+						        	String valor7 = casilla_7_ent.getText();
+						        	String valor8 = casilla_8_ent.getText();
+						        	String valor9 = casilla_9_ent.getText();
+						        	String valor10 = casilla_10_ent.getText();
+						        	String valor11 = casilla_11_ent.getText();
+						        	String valor12 = casilla_12_ent.getText();
+						        	String valor13 = casilla_13_ent.getText();
+						        	String valor14 = casilla_14_ent.getText();
+						        	String valor15 = casilla_15_ent.getText();
+						        	String valor16 = casilla_16_ent.getText();
+						        	String valor17 = casilla_17_ent.getText();
+						        	String valor18 = casilla_18_ent.getText();
+						        	String valor19 = casilla_19_ent.getText();
+						        	String valor20 = casilla_20_ent.getText();
+						        	String valor21 = casilla_21_ent.getText();
+						        	String valor22 = casilla_22_ent.getText();
+						        	String valor23 = casilla_23_ent.getText();
+						        	String valor24 = casilla_24_ent.getText();
+						        	String valor25 = casilla_25_ent.getText();
+						        	String escalar_num = num_escalar.getText();
+						        	
+						        	int[] vector1 = new int[5];
+						        	int[] vector2 = new int[5];
+						        	vector1[0] = Integer.parseInt(valor1);
+						        	vector1[1] = Integer.parseInt(valor2);
+						        	vector1[2] = Integer.parseInt(valor3);
+						        	vector1[3] = Integer.parseInt(valor4);
+						        	vector1[4] = Integer.parseInt(valor5);
+						        	
+						        	vector2[0] = Integer.parseInt(valor21);
+						        	vector2[1] = Integer.parseInt(valor22);
+						        	vector2[2] = Integer.parseInt(valor23);
+						        	vector2[3] = Integer.parseInt(valor24);
+						        	vector2[4] = Integer.parseInt(valor25);
+						        							        	
+						        	int numEscalar = Integer.parseInt(escalar_num);
+						        	
+						        	productoEscalar(vector1, vector2, numEscalar, spinnerValor);
+						    		casilla_1_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_2_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_3_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_4_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_5_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_6_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_7_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_8_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_9_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_10_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_11_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_12_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_13_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_14_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_15_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_16_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_17_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_18_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_19_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_20_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_21_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_22_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_23_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_24_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_25_sal.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		
+						    		casilla_1_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_2_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_3_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_4_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_5_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_6_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_7_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_8_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_9_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_10_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_11_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_12_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_13_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_14_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_15_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_16_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_17_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_18_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_19_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_20_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_21_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_22_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_23_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_24_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+						    		casilla_25_ent.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+
+						    		casilla_1_sal.setBounds(80, 9, 40, 40);
+						    		casilla_1_sal.setVisible(false);
+						            casilla_2_sal.setVisible(false);
+						            casilla_3_sal.setVisible(false);
+						            casilla_4_sal.setVisible(false);
+						            casilla_5_sal.setVisible(true);
+						            casilla_6_sal.setVisible(false);
+						            casilla_7_sal.setVisible(false);
+						            casilla_8_sal.setVisible(false);
+						            casilla_9_sal.setVisible(false);
+						            casilla_10_sal.setVisible(false);
+						            casilla_11_sal.setVisible(false);
+						            casilla_12_sal.setVisible(false);
+						            casilla_13_sal.setVisible(false);
+						            casilla_14_sal.setVisible(false);
+						            casilla_15_sal.setVisible(false);
+						            casilla_16_sal.setVisible(false);
+						            casilla_17_sal.setVisible(false);
+						            casilla_18_sal.setVisible(false);
+						            casilla_19_sal.setVisible(false);
+						            casilla_20_sal.setVisible(false);
+						            casilla_21_sal.setVisible(false);
+						            casilla_22_sal.setVisible(false);
+						            casilla_23_sal.setVisible(false);
+						            casilla_24_sal.setVisible(false);
+						            casilla_25_sal.setVisible(false);
+						            
+				        		}
+				        		
+					        	else {
+									JOptionPane.showMessageDialog(null, "Por favor, complete todas las casillas antes de continuar.");						        		
+					        	}
+				        	}				        		
+				        	
+				        	
+			
+				    }
+
+				    private boolean areAllFieldsFilled3X3() {
+				        return !num_escalar.getText().isEmpty() &&
+				        	   !casilla_1_ent.getText().isEmpty() && 
+				               !casilla_2_ent.getText().isEmpty() && 
+				               !casilla_3_ent.getText().isEmpty() && 
+				               !casilla_7_ent.getText().isEmpty() && 
+				               !casilla_8_ent.getText().isEmpty() && 
+				               !casilla_9_ent.getText().isEmpty();
+				    }
+				    
+				    private boolean areAllFieldsFilled4X4() {
+				        return !num_escalar.getText().isEmpty() &&
+				        	   !casilla_1_ent.getText().isEmpty() && 
+				               !casilla_2_ent.getText().isEmpty() && 
+				               !casilla_3_ent.getText().isEmpty() && 
+				               !casilla_4_ent.getText().isEmpty() && 
+				               !casilla_13_ent.getText().isEmpty() && 
+				               !casilla_14_ent.getText().isEmpty() && 
+				               !casilla_15_ent.getText().isEmpty() && 
+				               !casilla_16_ent.getText().isEmpty();
+				    }
+				    
+				    private boolean areAllFieldsFilled5x5() {
+				        return !num_escalar.getText().isEmpty() &&
+				        	   !casilla_1_ent.getText().isEmpty() && 
+				               !casilla_2_ent.getText().isEmpty() && 
+				               !casilla_3_ent.getText().isEmpty() && 
+				               !casilla_4_ent.getText().isEmpty() && 
+				               !casilla_5_ent.getText().isEmpty() && 
+				               !casilla_21_ent.getText().isEmpty() && 
+				               !casilla_22_ent.getText().isEmpty() && 
+				               !casilla_23_ent.getText().isEmpty() && 
+				               !casilla_24_ent.getText().isEmpty() && 
+				               !casilla_25_ent.getText().isEmpty();
+				    }
+				});
+				
+				mult_escalar_2.addMouseListener(new java.awt.event.MouseAdapter() {
+				    @Override
+				    public void mouseEntered(MouseEvent e) {
+				        calc_escalar_2.setForeground(new Color(205, 205, 205));
+				    }
+				    @Override
+				    public void mouseExited(MouseEvent e) {
+				        calc_escalar_2.setForeground(letrasColor);    
+				    }
+				    @Override
+					public void mouseClicked(java.awt.event.MouseEvent evt) {
+				        	if(spinnerValor == 3) {
+				        		if(areAllFieldsFilled3X3()) {
+					        		String valor1 = casilla_1_ent.getText();
+						        	String valor2 = casilla_2_ent.getText();
+						        	String valor3 = casilla_3_ent.getText();
+						        	String valor4 = casilla_4_ent.getText();
+						        	String valor5 = casilla_5_ent.getText();
+						        	String valor6 = casilla_6_ent.getText();
+						        	String valor7 = casilla_7_ent.getText();
+						        	String valor8 = casilla_8_ent.getText();
+						        	String valor9 = casilla_9_ent.getText();
+						        	String escalar_num = num_escalar.getText();
+						        	
+						        	String escalar_num1 = num_escalar.getText();
+						        	
+						        	int[] vector1 = new int[3];
+						        	int[] vector2 = new int[3];
+						        	vector1[0] = Integer.parseInt(valor1);
+						        	vector1[1] = Integer.parseInt(valor2);
+						        	vector1[2] = Integer.parseInt(valor3);
+						        	
+						        	vector2[0] = Integer.parseInt(valor7);
+						        	vector2[1] = Integer.parseInt(valor8);
+						        	vector2[2] = Integer.parseInt(valor9);
+						        	productoVectorial(vector1, vector2);
+	
+						    		casilla_1_sal.setBounds(80, 11, 70, 70);
+						    		casilla_1_sal.setVisible(false);
+						    		casilla_2_sal.setVisible(false);
+						            casilla_3_sal.setVisible(false);
+						            casilla_4_sal.setVisible(true);
+						            casilla_5_sal.setVisible(true);
+						            casilla_6_sal.setVisible(true);
+						            casilla_7_sal.setVisible(false);
+						            casilla_8_sal.setVisible(false);
+						            casilla_9_sal.setVisible(false);
+						            				        			
+				        		}
+				        		
+				        		else {
+									JOptionPane.showMessageDialog(null, "Por favor, complete todas las casillas antes de continuar.");						        			
+				        		}
+				        	}
+				        	else {
+					        	JOptionPane.showMessageDialog(null, "El producto vectorial sólo se puede definir en tres dimensiones.");				        		
+				        	}
+				        	
+				        	
+			
+				    }
+
+				    private boolean areAllFieldsFilled3X3() {
+				        return !casilla_1_ent.getText().isEmpty() && 
+				               !casilla_2_ent.getText().isEmpty() && 
+				               !casilla_3_ent.getText().isEmpty() && 
+				               !casilla_7_ent.getText().isEmpty() && 
+				               !casilla_8_ent.getText().isEmpty() && 
+				               !casilla_9_ent.getText().isEmpty();
+				    }
+				    
+				    private boolean areAllFieldsFilled4X4() {
+				        return !num_escalar.getText().isEmpty() &&
+				        	   !casilla_1_ent.getText().isEmpty() && 
+				               !casilla_2_ent.getText().isEmpty() && 
+				               !casilla_3_ent.getText().isEmpty() && 
+				               !casilla_4_ent.getText().isEmpty() && 
+				               !casilla_13_ent.getText().isEmpty() && 
+				               !casilla_14_ent.getText().isEmpty() && 
+				               !casilla_15_ent.getText().isEmpty() && 
+				               !casilla_16_ent.getText().isEmpty();
+				    }
+				    
+				    private boolean areAllFieldsFilled5x5() {
+				        return !num_escalar.getText().isEmpty() &&
+				        	   !casilla_1_ent.getText().isEmpty() && 
+				               !casilla_2_ent.getText().isEmpty() && 
+				               !casilla_3_ent.getText().isEmpty() && 
+				               !casilla_4_ent.getText().isEmpty() && 
+				               !casilla_5_ent.getText().isEmpty() && 
+				               !casilla_21_ent.getText().isEmpty() && 
+				               !casilla_22_ent.getText().isEmpty() && 
+				               !casilla_23_ent.getText().isEmpty() && 
+				               !casilla_24_ent.getText().isEmpty() && 
+				               !casilla_25_ent.getText().isEmpty();
+				    }
+				});
 				
 				
 	}
-	
 
+	
+	public void multEscalar(int vector1[], int vector2[], int escalar, int cantidad){
+		int i = 0;
+		
+		for(i=0;i<cantidad;i++) {
+			vector1[i] = vector1[i] * escalar;
+			vector2[i] = vector2[i] * escalar;
+		}
+		
+		if(cantidad == 3) {
+	        casilla_1_sal.setText(String.valueOf(vector1[0]));
+	        casilla_2_sal.setText(String.valueOf(vector1[1]));
+	        casilla_3_sal.setText(String.valueOf(vector1[2]));
+	        casilla_7_sal.setText(String.valueOf(vector2[0]));
+	        casilla_8_sal.setText(String.valueOf(vector2[1]));
+	        casilla_9_sal.setText(String.valueOf(vector2[2]));
+		}
+		
+		else if(cantidad == 4) {
+	        casilla_1_sal.setText(String.valueOf(vector1[0]));
+	        casilla_2_sal.setText(String.valueOf(vector1[1]));
+	        casilla_3_sal.setText(String.valueOf(vector1[2]));
+	        casilla_4_sal.setText(String.valueOf(vector1[3]));
+	        casilla_13_sal.setText(String.valueOf(vector2[0]));
+	        casilla_14_sal.setText(String.valueOf(vector2[1]));
+	        casilla_15_sal.setText(String.valueOf(vector2[2]));
+	        casilla_16_sal.setText(String.valueOf(vector2[3]));			
+		}
+		
+		else if(cantidad == 5) {
+	        casilla_1_sal.setText(String.valueOf(vector1[0]));
+	        casilla_2_sal.setText(String.valueOf(vector1[1]));
+	        casilla_3_sal.setText(String.valueOf(vector1[2]));
+	        casilla_4_sal.setText(String.valueOf(vector1[3]));
+	        casilla_5_sal.setText(String.valueOf(vector1[4]));
+	        casilla_21_sal.setText(String.valueOf(vector2[0]));
+	        casilla_22_sal.setText(String.valueOf(vector2[1]));
+	        casilla_23_sal.setText(String.valueOf(vector2[2]));
+	        casilla_24_sal.setText(String.valueOf(vector2[3]));			
+	        casilla_25_sal.setText(String.valueOf(vector2[4]));			
+		}
+	}
+	
+	public void vectorSuma(int vector1[], int vector2[], int cantidad) {
+		
+		int[] nuevoVector = new int[cantidad];
+		int i = 0;
+		
+		for(i=0;i<cantidad;i++) {
+			nuevoVector[i] = vector1[i] + vector2[i];
+		}
+
+		if(cantidad == 3) {
+	        casilla_1_sal.setText(String.valueOf(nuevoVector[0]));
+	        casilla_2_sal.setText(String.valueOf(nuevoVector[1]));
+	        casilla_3_sal.setText(String.valueOf(nuevoVector[2]));
+		}
+		
+		else if(cantidad == 4) {
+	        casilla_1_sal.setText(String.valueOf(nuevoVector[0]));
+	        casilla_2_sal.setText(String.valueOf(nuevoVector[1]));
+	        casilla_3_sal.setText(String.valueOf(nuevoVector[2]));
+	        casilla_4_sal.setText(String.valueOf(nuevoVector[3]));
+		}
+		
+		else if(cantidad == 5) {
+	        casilla_1_sal.setText(String.valueOf(nuevoVector[0]));
+	        casilla_2_sal.setText(String.valueOf(nuevoVector[1]));
+	        casilla_3_sal.setText(String.valueOf(nuevoVector[2]));
+	        casilla_4_sal.setText(String.valueOf(nuevoVector[3]));
+	        casilla_5_sal.setText(String.valueOf(nuevoVector[4]));		
+		}
+	}
+	
+	public void vectorResta(int vector1[], int vector2[], int cantidad) {
+		
+		int[] nuevoVector = new int[cantidad];
+		int i = 0;
+		
+		for(i=0;i<cantidad;i++) {
+			nuevoVector[i] = vector1[i] - vector2[i];
+		}
+
+		if(cantidad == 3) {
+	        casilla_1_sal.setText(String.valueOf(nuevoVector[0]));
+	        casilla_2_sal.setText(String.valueOf(nuevoVector[1]));
+	        casilla_3_sal.setText(String.valueOf(nuevoVector[2]));
+		}
+		
+		else if(cantidad == 4) {
+	        casilla_1_sal.setText(String.valueOf(nuevoVector[0]));
+	        casilla_2_sal.setText(String.valueOf(nuevoVector[1]));
+	        casilla_3_sal.setText(String.valueOf(nuevoVector[2]));
+	        casilla_4_sal.setText(String.valueOf(nuevoVector[3]));
+		}
+		
+		else if(cantidad == 5) {
+	        casilla_1_sal.setText(String.valueOf(nuevoVector[0]));
+	        casilla_2_sal.setText(String.valueOf(nuevoVector[1]));
+	        casilla_3_sal.setText(String.valueOf(nuevoVector[2]));
+	        casilla_4_sal.setText(String.valueOf(nuevoVector[3]));
+	        casilla_5_sal.setText(String.valueOf(nuevoVector[4]));		
+		}
+	}
+	
+	public void productoEscalar(int vector1[], int vector2[], int escalar, int cantidad) {
+		int productoEscalar = 0;
+		int i = 0;
+		for(i = 0; i<cantidad; i++) {
+			productoEscalar += vector1[i] * vector2[i];
+		}
+		
+		casilla_5_sal.setBounds(172, 98, 70, 70);
+		casilla_5_sal.setText(String.valueOf(productoEscalar));	
+		
+	}
+	
+	public void productoVectorial(int vector1[], int vector2[]) {
+		int productoVectorial = 0;
+		int[] nuevoVector = new int[3];
+        nuevoVector[0] = vector1[1] * vector2[2] - vector1[2] * vector2[1];
+        nuevoVector[1] = vector1[2] * vector2[0] - vector1[0] * vector2[2];
+        nuevoVector[2] = vector1[0] * vector2[1] - vector1[1] * vector2[0];		
+		casilla_4_sal.setText(String.valueOf(nuevoVector[0]));
+		casilla_5_sal.setText(String.valueOf(nuevoVector[1]));
+		casilla_6_sal.setText(String.valueOf(nuevoVector[2]));		
+	}
 }

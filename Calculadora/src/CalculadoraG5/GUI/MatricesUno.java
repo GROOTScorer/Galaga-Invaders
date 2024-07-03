@@ -1,4 +1,5 @@
-package main.java.com.calculadora.gui;
+package CalculadoraG5.GUI;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,16 +7,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import main.java.com.calculadora.logic.MatricesOperacion;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+import CalculadoraG5.resources.RoundedPanel;
+import CalculadoraG5.resources.RoundedTextfield;
 
-public class VentanaMatricesUno extends JInternalFrame{
+public class MatricesUno extends JInternalFrame{
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	 private Runnable abrirOtraVentanaCallback;
+    private JDesktopPane desktopPane;
 	// Declaracion de variables
 	private JTextField casilla_1_ent;
 	private JTextField casilla_2_ent;
@@ -80,26 +83,39 @@ public class VentanaMatricesUno extends JInternalFrame{
 
 
 	// Se crea el frame
-	public VentanaMatricesUno(Runnable abrirOtraVentanaCallback) {
-        super("Matrices 1 | Ozores Matías y Amodeo Luca", true, true, true, true);
-        ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+    public MatricesUno(JDesktopPane desktopPane) {
+        super("", false, false, false, false);
+        this.desktopPane = desktopPane;
         this.setBorder(null);
-        this.abrirOtraVentanaCallback = abrirOtraVentanaCallback;
+        this.setResizable(false);
+        this.setClosable(false);
+        this.setMaximizable(false);
+        this.setIconifiable(false);
+        this.setFrameIcon(null);
+        this.setLocation(0, 0);
+        this.setSize(900, 650);
+        this.setVisible(true);
+
+        // Eliminar la barra de título
+        ((BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+
+        // Evitar que la ventana se mueva
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                setLocation(0, 0);
+            }
+        });
         
-        setBounds(0, 0, 900, 650);
-        setResizable(false);
-        setClosable(false);
-        setIconifiable(false);
-        setMaximizable(false);
         Color miColorPrin = new Color(26, 27, 40);
         Color miColorSec = new Color(87, 116, 250);
         Color letrasColor = new Color(255, 255, 255);
         Color gris = new Color(30, 36, 53);
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 900, 650);
+        setBounds(0, 0, 900, 650);
         setResizable(false);
 
-        contentPane = new JPanel();
+        JPanel contentPane = new JPanel();
         contentPane.setBackground(miColorPrin);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -1160,18 +1176,23 @@ public class VentanaMatricesUno extends JInternalFrame{
 
 		JSpinner spinner = new JSpinner(new SpinnerNumberModel(3, 3, 5, 1));
 		spinner.setFont(new Font("Microsoft YaHei", Font.PLAIN, 13));
-		spinner.setBounds(378, 20, 62, 45);
+		spinner.setBounds(378, 25, 62, 38);
 		spinner.setBorder(BorderFactory.createLineBorder(gris));
+		spinner.setFocusable(false);
 		spinner.setBackground(gris);
+		
 		JComponent editor = spinner.getEditor();
 		if (editor instanceof JSpinner.DefaultEditor) {
 		    JTextField textField = ((JSpinner.DefaultEditor) editor).getTextField();
+		    textField.setEditable(false); // Evitar que el texto sea editable
+		    textField.setFocusable(false); // Evitar que el texto sea seleccionable
+		    textField.setBackground(gris);
 		    textField.setForeground(letrasColor);
 		    textField.setHorizontalAlignment(JTextField.CENTER);
-		    textField.setEditable(false);
-		    textField.setBackground(gris);
 		}
+
 		matrices.add(spinner);
+
 
 		
 		spinner.addChangeListener(new ChangeListener() {
@@ -1585,10 +1606,7 @@ public class VentanaMatricesUno extends JInternalFrame{
         ingresar_dos_matrices.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                setVisible(false);
-                if (abrirOtraVentanaCallback != null) {
-                    abrirOtraVentanaCallback.run();
-                }
+                abrirVentanaMatricesMasDeUno();
             }
         });
 		
@@ -1601,7 +1619,7 @@ public class VentanaMatricesUno extends JInternalFrame{
 		
 		JPanel menu_general = new JPanel();
 		menu_general.setBackground(miColorPrin);
-		menu_general.setBounds(23, 34, 834, 80);
+		menu_general.setBounds(22, 34, 834, 80);
 		contentPane.add(menu_general);
 		menu_general.setLayout(null);
 		
@@ -1617,6 +1635,11 @@ public class VentanaMatricesUno extends JInternalFrame{
 			public void mouseExited(MouseEvent e) {
 				aritmeticas.setBackground(new Color(255, 255, 255));
 			}
+			
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                abrirVentanaEstandar();
+            }
 		});
 		aritmeticas.setBackground(new Color(255, 255, 255));
 		aritmeticas.setBounds(10, 11, 185, 58);
@@ -1648,6 +1671,11 @@ public class VentanaMatricesUno extends JInternalFrame{
 			public void mouseExited(MouseEvent e) {
 				vectores.setBackground(new Color(255, 255, 255));
 			}
+			
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                abrirVentanaVectores();
+            }
 		});
 		
 		JLabel texto_vectores = new JLabel("VECTORES");
@@ -1688,6 +1716,11 @@ public class VentanaMatricesUno extends JInternalFrame{
 			public void mouseExited(MouseEvent e) {
 				ecuaciones.setBackground(new Color(255, 255, 255));
 			}
+			
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                abrirVentanaEcuaciones();
+            }
 		});
 		
 		JLabel texto_ecuaciones = new JLabel("ECUACIONES");
@@ -1698,10 +1731,10 @@ public class VentanaMatricesUno extends JInternalFrame{
 		ecuaciones.add(texto_ecuaciones);
 		
 		
-		corchete_izq.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteIzq.png")));
-		corchete_der.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteDer.png")));
-		corchete_izq_1.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteIzq.png")));
-		corchete_der_1.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteDer.png")));
+		corchete_izq.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/CorcheteIzq.png")));
+		corchete_der.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/CorcheteDer.png")));
+		corchete_izq_1.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/CorcheteIzq.png")));
+		corchete_der_1.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/CorcheteDer.png")));
 		
 		// Parte logica simplificada
 				mult_escalar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -3005,5 +3038,36 @@ public class VentanaMatricesUno extends JInternalFrame{
 				
 	}
 	
+	private void abrirVentanaEcuaciones() {
+	    // Cerrar la ventana actual
+	    this.dispose();
+
+	    // Abrir Ventana2x2 en el mismo JDesktopPane
+	    Ecuaciones2x2 ventana2x2 = new Ecuaciones2x2(desktopPane);
+	    desktopPane.add(ventana2x2);
+	    ventana2x2.setVisible(true);
+	}
+
+    
+    private void abrirVentanaMatricesMasDeUno() {
+	    this.dispose();
+        MatricesDos VentanaMatricesMasDeUno = new MatricesDos(desktopPane);
+        desktopPane.add(VentanaMatricesMasDeUno);
+        VentanaMatricesMasDeUno.setVisible(true);
+    }
+    
+    private void abrirVentanaEstandar() {
+	    this.dispose();
+        Estandar Estandar= new Estandar(desktopPane);
+        desktopPane.add(Estandar);
+        Estandar.setVisible(true);
+    }
+    
+    private void abrirVentanaVectores() {
+	    this.dispose();
+        VentanaVectores VentanaVectores= new VentanaVectores(desktopPane);
+        desktopPane.add(VentanaVectores);
+        VentanaVectores.setVisible(true);
+    }
 
 }

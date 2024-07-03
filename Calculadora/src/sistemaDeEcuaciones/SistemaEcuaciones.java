@@ -19,7 +19,6 @@ public class SistemaEcuaciones {
     }
 
     public static void resolverSistema2x2(Scanner scanner) {
-        System.out.println("Ingrese los coeficientes y términos independientes del sistema de ecuaciones 2x2:");
         double a1 = scanner.nextDouble();
         double b1 = scanner.nextDouble();
         double c1 = scanner.nextDouble();
@@ -34,12 +33,10 @@ public class SistemaEcuaciones {
         } else {
             double x = (c1 * b2 - c2 * b1) / determinante;
             double y = (a1 * c2 - a2 * c1) / determinante;
-            System.out.println("La solución del sistema es: x = " + x + ", y = " + y);
         }
     }
 
     public static void resolverSistema3x3(Scanner scanner) {
-        System.out.println("Ingrese los coeficientes y términos independientes del sistema de ecuaciones 3x3:");
         double a1 = scanner.nextDouble();
         double b1 = scanner.nextDouble();
         double c1 = scanner.nextDouble();

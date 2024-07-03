@@ -1,5 +1,4 @@
-package GUI;
-
+package CalculadoraG5.GUI;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -18,16 +17,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-
-import GUI_SistemaDeEcuaciones.Ventana2x2;
-import GUI_Vectores.VentanaVectores;
-
 import java.awt.GridLayout;
 import javax.swing.JLabel;
-import main.java.com.calculadora.gui.RoundedPanel;
-import main.java.com.calculadora.gui.VentanaMatricesUno;
+import CalculadoraG5.resources.RoundedPanel;
 
-public class Ventana_Menu extends JInternalFrame
+
+public class Estandar extends JInternalFrame
 {
 	
 	private static final long serialVersionUID = -5500587932027014632L;
@@ -83,7 +78,7 @@ public class Ventana_Menu extends JInternalFrame
     private final JLabel texto_ecuaciones = new JLabel("ECUACIONES");
     
 	
-	public Ventana_Menu(JDesktopPane desktopPane)
+	public Estandar(JDesktopPane desktopPane)
     {		
 	    this.desktopPane = desktopPane;
         this.setBorder(null);
@@ -1252,7 +1247,7 @@ public class Ventana_Menu extends JInternalFrame
 	    this.dispose();
 
 	    // Abrir Ventana2x2 en el mismo JDesktopPane
-	    Ventana2x2 ventana2x2 = new Ventana2x2(desktopPane);
+	    Ecuaciones2x2 ventana2x2 = new Ecuaciones2x2(desktopPane);
 	    desktopPane.add(ventana2x2);
 	    ventana2x2.setVisible(true);
 	}
@@ -1261,7 +1256,7 @@ public class Ventana_Menu extends JInternalFrame
     
     private void abrirVentanaMatricesUno() {
 	    this.dispose();
-    	VentanaMatricesUno ventanaMatricesUno = new VentanaMatricesUno(desktopPane);
+    	MatricesUno ventanaMatricesUno = new MatricesUno(desktopPane);
         desktopPane.add(ventanaMatricesUno);
         ventanaMatricesUno.setVisible(true);
         this.setVisible(false);

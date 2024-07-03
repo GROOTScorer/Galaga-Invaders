@@ -1,21 +1,25 @@
-package main.java.com.calculadora.gui;
+package CalculadoraG5.GUI;
+
 
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import main.java.com.calculadora.logic.MatricesOperacion;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
+import CalculadoraG5.resources.RoundedPanel;
+import CalculadoraG5.resources.RoundedTextfield;
 
-
-public class VentanaMatricesMasDeUno extends JInternalFrame{
+public class MatricesDos extends JInternalFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+    private JDesktopPane desktopPane;
 	
 	// Declaracion de variables
 	private JTextField casilla_1_ent;
@@ -73,23 +77,35 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
 	private JTextField casilla_23_sal;
 	private JTextField casilla_24_sal;
 	private JTextField casilla_25_sal;
-    private Runnable abrirOtraVentanaCallback;
+
 	// Se crea el frame
-	   public VentanaMatricesMasDeUno(Runnable abrirOtraVentanaCallback) {
-		   
-	        super("Matrices Más de Uno", true, true, true, true);
-	        ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+	   public MatricesDos(JDesktopPane desktopPane) {
+	    this.desktopPane = desktopPane;
+		setTitle("MatricesMasDeUno");
         Color miColorPrin = new Color(26, 27, 40);
         Color miColorSec = new Color(87, 116, 250);
         Color letrasColor = new Color(255,255,255);
         Color gris = new Color(30,36,53);
         this.setBorder(null);
-        this.abrirOtraVentanaCallback = abrirOtraVentanaCallback;
-        setBounds(0, 0, 900, 650);
-        setResizable(false);
-        setClosable(false);
-        setIconifiable(false);
-        setMaximizable(false);
+        this.setResizable(false);
+        this.setClosable(false);
+        this.setMaximizable(false);
+        this.setIconifiable(false);
+        this.setFrameIcon(null);
+        this.setLocation(0, 0);
+        this.setSize(900, 650);
+        this.setVisible(true);
+
+        // Eliminar la barra de título
+        ((BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+
+        // Evitar que la ventana se mueva
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                setLocation(0, 0);
+            }
+        });
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setTitle("Matrices 2 | Ozores Matías y Amodeo Luca");
 
@@ -2550,17 +2566,26 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
 		
 		JSpinner spinner = new JSpinner(new SpinnerNumberModel(3, 3, 5, 1));
 		spinner.setBounds(248, 47, 54, 20);
-		spinner.getEditor().getComponent(0).setBackground(gris);
 		spinner.setBorder(BorderFactory.createLineBorder(gris));
+
+		// Configurar el fondo del editor
+		spinner.getEditor().getComponent(0).setBackground(gris);
+
+		// Configurar el borde del editor
 		((JComponent) spinner.getEditor()).setBorder(BorderFactory.createLineBorder(gris));
+
+		// Obtener el editor del spinner
 		JComponent editor = (JComponent) spinner.getEditor();
 		if (editor instanceof JSpinner.DefaultEditor) {
 		    JTextField textField = ((JSpinner.DefaultEditor) editor).getTextField();
 		    textField.setForeground(letrasColor);
 		    textField.setHorizontalAlignment(JTextField.CENTER);
-		    textField.setEditable(false);
+		    textField.setEditable(false); // Evitar que el texto sea editable
+		    textField.setFocusable(false); // Evitar que el texto sea seleccionable
 		}
+
 		matrices.add(spinner);
+
 		
 		JLabel lblLongitud = new JLabel("Longitud");
 		lblLongitud.setHorizontalAlignment(SwingConstants.CENTER);
@@ -2579,10 +2604,7 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
         ingresar_una_matriz.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                setVisible(false);
-                if (abrirOtraVentanaCallback != null) {
-                    abrirOtraVentanaCallback.run();
-                }
+                abrirVentanaMatricesUno();
             }
         });
 
@@ -2629,7 +2651,7 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
 		
 		JPanel menu_general = new JPanel();
 		menu_general.setBackground(miColorPrin);
-		menu_general.setBounds(23, 34, 834, 80);
+		menu_general.setBounds(22, 34, 834, 80);
 		contentPane.add(menu_general);
 		menu_general.setLayout(null);
 		
@@ -2645,9 +2667,15 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
 			public void mouseExited(MouseEvent e) {
 				aritmeticas.setBackground(new Color(255, 255, 255));
 			}
+			
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                abrirVentanaEstandar();
+            }
 		});
 		aritmeticas.setBackground(new Color(255, 255, 255));
 		aritmeticas.setBounds(10, 11, 185, 58);
+		aritmeticas.setOpaque(false);
 		menu_general.add(aritmeticas);
 		aritmeticas.setLayout(new GridLayout(0, 1, 0, 0));
 		
@@ -2675,6 +2703,11 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
 			public void mouseExited(MouseEvent e) {
 				vectores.setBackground(new Color(255, 255, 255));
 			}
+			
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                abrirVentanaVectores();
+            }
 		});
 		
 		JLabel texto_vectores = new JLabel("VECTORES");
@@ -2715,6 +2748,11 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
 			public void mouseExited(MouseEvent e) {
 				ecuaciones.setBackground(new Color(255, 255, 255));
 			}
+			
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                abrirVentanaEcuaciones();
+            }
 		});
 		
 		JLabel texto_ecuaciones = new JLabel("ECUACIONES");
@@ -3283,17 +3321,17 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
 		    }
 		});	
 		
-		corchete_der_e1.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_der.png")));
-		corchete_der_e2.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_der.png")));
-		corchete_der.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/CorcheteDer.png")));
-		corchete_izq_e1.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_izq.png")));
-		corchete_izq_e1.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_izq.png")));
-		corchete_izq_e2.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_izq.png")));
-		corchete_izq_e2.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_izq.png")));		
-		corchete_izq_s.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_izq.png")));
-		corchete_izq_s.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_izq.png")));
-		corchete_der_s.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_der.png")));
-		corchete_der_s.setIcon(new ImageIcon(VentanaMatricesMasDeUno.class.getResource("/main/imagenes/corchete_chico_der.png")));	
+		corchete_der_e1.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_der.png")));
+		corchete_der_e2.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_der.png")));
+		corchete_der.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/CorcheteDer.png")));
+		corchete_izq_e1.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_izq.png")));
+		corchete_izq_e1.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_izq.png")));
+		corchete_izq_e2.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_izq.png")));
+		corchete_izq_e2.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_izq.png")));		
+		corchete_izq_s.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_izq.png")));
+		corchete_izq_s.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_izq.png")));
+		corchete_der_s.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_der.png")));
+		corchete_der_s.setIcon(new ImageIcon(MatricesDos.class.getResource("/main/imagenes/corchete_chico_der.png")));	
 		// Parte logica simplificada
 
 		calc_suma.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -5124,4 +5162,37 @@ public class VentanaMatricesMasDeUno extends JInternalFrame{
 		});
 
 	}
+
+	private void abrirVentanaEcuaciones() {
+	    // Cerrar la ventana actual
+	    this.dispose();
+
+	    // Abrir Ventana2x2 en el mismo JDesktopPane
+	    Ecuaciones2x2 ventana2x2 = new Ecuaciones2x2(desktopPane);
+	    desktopPane.add(ventana2x2);
+	    ventana2x2.setVisible(true);
+	}
+
+	    
+    private void abrirVentanaMatricesUno() {
+	    this.dispose();
+    	MatricesUno ventanaMatricesUno = new MatricesUno(desktopPane);
+        desktopPane.add(ventanaMatricesUno);
+        ventanaMatricesUno.setVisible(true);
+        this.setVisible(false);
+    }
+    
+    private void abrirVentanaEstandar() {
+	    this.dispose();
+        Estandar Estandar= new Estandar(desktopPane);
+        desktopPane.add(Estandar);
+        Estandar.setVisible(true);
+    }
+    
+    private void abrirVentanaVectores() {
+	    this.dispose();
+        VentanaVectores VentanaVectores= new VentanaVectores(desktopPane);
+        desktopPane.add(VentanaVectores);
+        VentanaVectores.setVisible(true);
+    }
 }
