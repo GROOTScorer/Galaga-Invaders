@@ -690,7 +690,7 @@ public class Ecuaciones2x2 extends JInternalFrame{
 	    double determinante = a1 * b2 - a2 * b1;
 	
 	    if (determinante == 0) {
-	        JOptionPane.showMessageDialog(null, "No una sola solución.");
+	        JOptionPane.showMessageDialog(null, "No hay una sola solución.");
 	    } else {
 	        double x = (c1 * b2 - c2 * b1) / determinante;
 	        double y = (a1 * c2 - a2 * c1) / determinante;
