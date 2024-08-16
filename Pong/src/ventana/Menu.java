@@ -51,7 +51,9 @@ public class Menu extends JPanel implements Runnable {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(archivo);
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-            clip.start();
+            if(OpcionesMenu.getFlagSonido() == 1) {
+                clip.start();            	
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,8 +81,8 @@ public class Menu extends JPanel implements Runnable {
         this.pong = new Resultado("PONG", new Font("Arial", Font.PLAIN, 120), 170, 200, Color.WHITE);
         this.unJugador = new Resultado("UN JUGADOR", new Font("Times New Roman", Font.PLAIN, 40), 220, 350, Color.WHITE);
         this.dosJugadores = new Resultado("DOS JUGADORES", new Font("Times New Roman", Font.PLAIN, 40), 180, 450, Color.WHITE);
-        this.terminarJuego = new Resultado("SALIR", new Font("Times New Roman", Font.PLAIN, 40), 280, 550, Color.WHITE);
-        this.opciones = new Resultado("OPCIONES", new Font("Times New Roman", Font.PLAIN, 40), 250, 650, Color.WHITE);
+        this.terminarJuego = new Resultado("SALIR", new Font("Times New Roman", Font.PLAIN, 40), 280, 650, Color.WHITE);
+        this.opciones = new Resultado("OPCIONES", new Font("Times New Roman", Font.PLAIN, 40), 240, 550, Color.WHITE);
     }
 
     public void setEstadoJugador(int numero) {
@@ -152,7 +154,7 @@ public class Menu extends JPanel implements Runnable {
             opcionHoverActual = 0;
 
             if (mouseListener.isMousePressed()) {
-                Main.cambiarEstado(4);
+                Main.cambiarEstado(10);
                 setEstadoJugador(0);
             }
         } else {
@@ -193,6 +195,10 @@ public class Menu extends JPanel implements Runnable {
                 && mouseY > opciones.y - opciones.altura / 2
                 && mouseY < opciones.y + opciones.altura / 2) {
             opciones.color = new Color(158, 158, 158);
+            opcionHoverActual = 3;
+            if (mouseListener.isMousePressed()) {
+                Main.cambiarEstado(12);
+            }
         } else {
             opciones.color = Color.white;
         }
@@ -216,7 +222,7 @@ public class Menu extends JPanel implements Runnable {
         unJugador.dibujar(g2);
         dosJugadores.dibujar(g2);
         terminarJuego.dibujar(g2);
-        //opciones.dibujar(g2);
+        opciones.dibujar(g2);
     }
 
     public void stop() {
@@ -250,7 +256,7 @@ public class Menu extends JPanel implements Runnable {
                         unJugador.dibujar((Graphics2D) g);
                         dosJugadores.dibujar((Graphics2D) g);
                         terminarJuego.dibujar((Graphics2D) g);
-                        //opciones.dibujar((Graphics2D) g);
+                        opciones.dibujar((Graphics2D) g);
 
                         g.dispose();
                     } while (bs.contentsRestored());

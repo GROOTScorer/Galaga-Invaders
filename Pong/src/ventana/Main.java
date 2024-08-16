@@ -9,6 +9,9 @@ public class Main {
     public static App app;
     public static OpcionesPartida opcionesPartida;
     public static OpcionesModoVictoria opcionesModoVictoria;
+    public static ElegirDificultadCpu elegirDificultadCpu;
+    public static OpcionesMenu opcionesMenu;
+    public static OpcionNombreJugador opcionNombreJugador;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -33,13 +36,11 @@ public class Main {
             threadPrincipal.start();
         }
         // Manejar transición del juego al menú
-        else if (nuevoEstado == 0 && estado == 1) {
+        else if (nuevoEstado == 0 && estado == 7) {
             if (app != null) {
                 app.stop();
             }
-            if (menu == null) {
-                menu = new Menu(); // Solo crea una nueva instancia si es null
-            }
+            menu = new Menu(); // Solo crea una nueva instancia si es null
             threadPrincipal = new Thread(menu);
             threadPrincipal.start();
         }
@@ -85,8 +86,8 @@ public class Main {
         	if(opcionesPartida != null) {
         		opcionesPartida.stop();
         	}
-            menu = new Menu();
-            threadPrincipal = new Thread(menu);
+            elegirDificultadCpu = new ElegirDificultadCpu();
+            threadPrincipal = new Thread(elegirDificultadCpu);
             threadPrincipal.start();
         }
         
@@ -94,11 +95,83 @@ public class Main {
             if (opcionesModoVictoria != null) {
                 opcionesModoVictoria.stop();
             }
+            opcionNombreJugador = new OpcionNombreJugador();
+            threadPrincipal = new Thread(opcionNombreJugador);
+            threadPrincipal.start();
+        }
+        
+        else if (nuevoEstado == 8) {
+            if (elegirDificultadCpu != null) {
+            	elegirDificultadCpu.stop();
+            }
+            opcionesPartida = new OpcionesPartida();
+            threadPrincipal = new Thread(opcionesPartida);
+            threadPrincipal.start();
+        }
+        
+        else if (nuevoEstado == 9) {
+            if (elegirDificultadCpu != null) {
+            	elegirDificultadCpu.stop();
+            }
+            menu = new Menu();
+            threadPrincipal = new Thread(menu);
+            threadPrincipal.start();
+        }
+        
+        else if (nuevoEstado == 10) {
+            if (menu != null) {
+            	menu.stop();
+            }
+            elegirDificultadCpu = new ElegirDificultadCpu();
+            threadPrincipal = new Thread(elegirDificultadCpu);
+            threadPrincipal.start();
+        }
+        
+        else if (nuevoEstado == 11) {
+            if (opcionesMenu != null) {
+            	opcionesMenu.stop();
+            }
+            menu = new Menu();
+            threadPrincipal = new Thread(menu);
+            threadPrincipal.start();
+        }
+        
+        else if (nuevoEstado == 12) {
+            if (menu != null) {
+            	menu.stop();
+            }
+            opcionesMenu = new OpcionesMenu();
+            threadPrincipal = new Thread(opcionesMenu);
+            threadPrincipal.start();
+        }
+        
+        else if (nuevoEstado == 13) {
+        	if(opcionesPartida != null) {
+        		opcionesPartida.stop();
+        	}
+            menu = new Menu();
+            threadPrincipal = new Thread(menu);
+            threadPrincipal.start();
+        }
+        
+        else if (nuevoEstado == 14) {
+        	if(opcionNombreJugador != null) {
+        		opcionNombreJugador.stop();
+        	}
             app = new App();
             threadPrincipal = new Thread(app);
             threadPrincipal.start();
         }
-
+        
+        else if (nuevoEstado == 15) {
+        	if(opcionNombreJugador != null) {
+        		opcionNombreJugador.stop();
+        	}
+            opcionesModoVictoria = new OpcionesModoVictoria();
+            threadPrincipal = new Thread(opcionesModoVictoria);
+            threadPrincipal.start();
+        }
+        
         estado = nuevoEstado;
     }
 }

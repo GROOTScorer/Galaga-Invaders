@@ -25,23 +25,19 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 
-public class OpcionesModoVictoria extends JPanel implements Runnable {
+public class ElegirDificultadCpu extends JPanel implements Runnable {
     private JFrame frame;
     private Canvas canvas;
 	
 	private static final long serialVersionUID = 1L;
 	
 	public KL keyListener = new KL();
-	public Resultado atras, elegirPuntaje, elegirTemporizador, textoElegirPuntaje, textoElegirTemporizador, elegirDiferencia, textoElegirDiferencia, jugar;
+	public Resultado atras, continuar, textoDificultadCpu, textoElegirCpu, descripcionDificultad;
 	public ML mouseListener = new ML();
 	public boolean isRunning = true;
-	private int opcionSeleccionada = 0;
-	public static int estadoTipoPartido = 0;
-	public static int puntajeGanador = 1;
-	public static int diferenciaGol = 1;
-	public static int temporizador = 1;
+	public static int dificultadCpu = 1;
     private int ultimaOpcionHover = -1;
-	
+    
     private void reproducirSonido(String nombreArchivo) {
         try {
             // Obtener la ruta del directorio donde está la clase Pelota
@@ -63,7 +59,7 @@ public class OpcionesModoVictoria extends JPanel implements Runnable {
         }
     }
 	
-	public OpcionesModoVictoria() {
+	public ElegirDificultadCpu() {
         frame = new JFrame("PONG");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 700);
@@ -81,55 +77,42 @@ public class OpcionesModoVictoria extends JPanel implements Runnable {
         canvas.addMouseListener(mouseListener);
         canvas.addMouseMotionListener(mouseListener);
         frame.setVisible(true);
-		this.elegirPuntaje = new Resultado("ELEGIR PUNTAJE", new Font("Times New Roman", Font.PLAIN, 40), 190, 350, Color.WHITE);
-		this.textoElegirPuntaje = new Resultado("< " + puntajeGanador + " >", new Font("Times New Roman", Font.PLAIN, 40), 300, 400, Color.WHITE);
-		this.elegirDiferencia = new Resultado("ELEGIR DIFERENCIA DE GOL", new Font("Times New Roman", Font.PLAIN, 40), 60, 500, Color.WHITE);
-		this.textoElegirDiferencia = new Resultado("< " + diferenciaGol + " >", new Font("Times New Roman", Font.PLAIN, 40), 300, 550, Color.WHITE);
-		this.elegirTemporizador = new Resultado("ELEGIR CANTIDAD DE MINUTOS", new Font("Times New Roman", Font.PLAIN, 40), 50, 350, Color.WHITE);
-		this.textoElegirTemporizador = new Resultado("< " + temporizador + " >", new Font("Times New Roman", Font.PLAIN, 40), 300, 400, Color.WHITE);
-		this.jugar = new Resultado("ELEGIR NOMBRE", new Font("Times New Roman", Font.PLAIN, 40), 190, 200, Color.WHITE);
+		this.textoElegirCpu = new Resultado("ELEGIR DIFICULTAD DE CPU", new Font("Times New Roman", Font.PLAIN, 40), 90, 350, Color.WHITE);
+        this.continuar = new Resultado("CONTINUAR", new Font("Times New Roman", Font.PLAIN, 40), 220, 250, Color.WHITE);
+		this.textoDificultadCpu = new Resultado("< FACIL >", new Font("Times New Roman", Font.PLAIN, 40), 250, 450, Color.WHITE);
 		this.atras = new Resultado("ATRAS", new Font("Times New Roman", Font.PLAIN, 40), 280, 650, Color.WHITE);
+		this.descripcionDificultad = new Resultado("PARA UNA EXPERIENCA CASUAL", new Font("Times New Roman", Font.PLAIN, 20), 185, 500, Color.WHITE);			
 		
 	    Graphics2D g2 = (Graphics2D)getGraphics();
 	}
 	
-	public static int getTipoPartido() {
-		return estadoTipoPartido;
+	public static int getDificultadCpu() {
+		return dificultadCpu;
 	}
 	
-	public static int getTemporizador() {
-		return temporizador;
-	}
-	
-	public static int getPuntaje() {
-		return puntajeGanador;
-	}
-	
-	public static int getDiferencia() {
-		return diferenciaGol;
-	}
 	
 	public void actualizar(double deltaTime) {
 	    // Actualizar colores basados en la selección
 	    double mouseX = mouseListener.getMouseX();
 	    double mouseY = mouseListener.getMouseY();
         int opcionHoverActual = -1;
-		// Controlar el color del botón "Atras"
-		if (mouseX > jugar.x
-	            && mouseX < jugar.x + jugar.anchura
-	            && mouseY > jugar.y - jugar.altura / 2
-	            && mouseY < jugar.y + jugar.altura / 2) {
-			jugar.color = new Color(158, 158, 158);
+	    if (mouseX > continuar.x
+	            && mouseX < continuar.x + continuar.anchura
+	            && mouseY > continuar.y - continuar.altura / 2
+	            && mouseY < continuar.y + continuar.altura / 2) {
+	    	continuar.color = new Color(158, 158, 158);
             opcionHoverActual = 0;
 	        
 	        if (mouseListener.isMousePressed()) {
-	            Main.cambiarEstado(7);
-	        }
-		} else {
-			atras.color = Color.white;
+	            Main.cambiarEstado(8);
+	            }
 		}
-        
-        if (mouseX > atras.x
+		
+		else {
+			continuar.color = Color.white;
+		}
+	    		
+		if (mouseX > atras.x
 	            && mouseX < atras.x + atras.anchura
 	            && mouseY > atras.y - atras.altura / 2
 	            && mouseY < atras.y + atras.altura / 2) {
@@ -137,65 +120,49 @@ public class OpcionesModoVictoria extends JPanel implements Runnable {
             opcionHoverActual = 1;
 	        
 	        if (mouseListener.isMousePressed()) {
-	            Main.cambiarEstado(6);
-	        }
-		} else {
+	            Main.cambiarEstado(9);
+	            }
+		}
+		
+		else {
 			atras.color = Color.white;
 		}
 		
-		// Manejar teclas de flechas
 		if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
-			if (OpcionesPartida.getTipoPartido() == 0 && puntajeGanador > 1) {
-				puntajeGanador--;
-				textoElegirPuntaje.texto = "< " + puntajeGanador + " >";
-				if(diferenciaGol > puntajeGanador) {
-					diferenciaGol--;
-					textoElegirDiferencia.texto = "< " + diferenciaGol + " >";					
+			if (dificultadCpu > 1) {
+				dificultadCpu--;
+				if(dificultadCpu == 1) {
+					textoDificultadCpu.texto = "< FACIL >";
+					descripcionDificultad.texto = "PARA UNA EXPERIENCIA CASUAL";
+					descripcionDificultad.x = 185.0;
 				}
-                reproducirSonido("snd_select.wav");
-		        try { Thread.sleep(200); } catch (InterruptedException e) { } // Pequeña pausa para evitar cambios rápidos
-			} else if (OpcionesPartida.getTipoPartido() == 1 && temporizador > 1) {
-				temporizador--;
-				textoElegirTemporizador.texto = "< " + temporizador + " >";
-                reproducirSonido("snd_select.wav");
-		        try { Thread.sleep(200); } catch (InterruptedException e) { } // Pequeña pausa para evitar cambios rápidos
-			}
-		}
-		
-		if (keyListener.isKeyPressed(KeyEvent.VK_A)) {
-			if (OpcionesPartida.getTipoPartido() == 0 && diferenciaGol > 1) {
-				diferenciaGol--;
-				textoElegirDiferencia.texto = "< " + diferenciaGol + " >";
-                reproducirSonido("snd_select.wav");
-		        try { Thread.sleep(200); } catch (InterruptedException e) { } // Pequeña pausa para evitar cambios rápidos
-			}
-		}
-		
-		if (keyListener.isKeyPressed(KeyEvent.VK_D)) {
-			if (OpcionesPartida.getTipoPartido() == 0) {
-				diferenciaGol++;
-				textoElegirDiferencia.texto = "< " + diferenciaGol + " >";
-				if(diferenciaGol > puntajeGanador) {
-					puntajeGanador++;
-					textoElegirPuntaje.texto = "< " + puntajeGanador + " >";					
+				
+				else if(dificultadCpu == 2) {
+					textoDificultadCpu.texto = "< MEDIA >";
+					descripcionDificultad.texto = "PARA DESAFIARSE";
+					descripcionDificultad.x = 255.0;
+					
 				}
                 reproducirSonido("snd_select.wav");
 		        try { Thread.sleep(200); } catch (InterruptedException e) { } // Pequeña pausa para evitar cambios rápidos
 			}
 		}
-		
-		
 		
 		if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
-			if (OpcionesPartida.getTipoPartido() == 0) {
-				puntajeGanador++;
-				textoElegirPuntaje.texto = "< " + puntajeGanador + " >";
-				reproducirSonido("snd_select.wav");
-		        try { Thread.sleep(200); } catch (InterruptedException e) { } // Pequeña pausa para evitar cambios rápidos
-			} else if (OpcionesPartida.getTipoPartido() == 1) {
-				temporizador++;
-				textoElegirTemporizador.texto = "< " + temporizador + " >";
-				reproducirSonido("snd_select.wav");
+			if (dificultadCpu < 3) {
+				dificultadCpu++;
+				if(dificultadCpu == 2) {
+					textoDificultadCpu.texto = "< MEDIA >";	
+					descripcionDificultad.texto = "PARA DESAFIARSE";
+					descripcionDificultad.x = 255.0;
+				}
+				
+				else if(dificultadCpu == 3) {
+					textoDificultadCpu.texto = "< DIFICIL >";
+					descripcionDificultad.texto = "PARA UN VERDADERO RETO";
+					descripcionDificultad.x = 215.0;
+				}
+                reproducirSonido("snd_select.wav");
 		        try { Thread.sleep(200); } catch (InterruptedException e) { } // Pequeña pausa para evitar cambios rápidos
 			}
 		}
@@ -208,6 +175,7 @@ public class OpcionesModoVictoria extends JPanel implements Runnable {
         }
     }
 
+
 	@Override
 	public void paint(Graphics g) {
 	    super.paint(g);
@@ -215,20 +183,10 @@ public class OpcionesModoVictoria extends JPanel implements Runnable {
 	    g2.setColor(Color.BLACK);
 	    g2.fillRect(0, 0, getWidth(), getHeight());
 	    
-        if(OpcionesPartida.getTipoPartido() == 0) {
-            elegirPuntaje.dibujar(g2);
-            textoElegirPuntaje.dibujar(g2);
-            elegirDiferencia.dibujar(g2);
-            textoElegirDiferencia.dibujar(g2);
-            jugar.dibujar(g2);	                    
-            }
-        
-        else if(OpcionesPartida.getTipoPartido() == 1) {
-            elegirTemporizador.dibujar(g2);
-            textoElegirTemporizador.dibujar(g2);
-            jugar.dibujar(g2);
-        }
-
+	    textoElegirCpu.dibujar(g2);
+	    continuar.dibujar(g2);
+	    textoDificultadCpu.dibujar(g2);
+	    descripcionDificultad.dibujar(g2);
 	    atras.dibujar(g2);
 	}
 	
@@ -260,19 +218,10 @@ public class OpcionesModoVictoria extends JPanel implements Runnable {
 	                    g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 	                    
 	                    atras.dibujar((Graphics2D) g);
-	                    if(OpcionesPartida.getTipoPartido() == 0) {
-		                    elegirPuntaje.dibujar((Graphics2D) g);
-		                    textoElegirPuntaje.dibujar((Graphics2D) g);
-		                    elegirDiferencia.dibujar((Graphics2D) g);
-		                    textoElegirDiferencia.dibujar((Graphics2D) g);
-		                    jugar.dibujar((Graphics2D) g);	                    
-		                    }
-	                    
-	                    else if(OpcionesPartida.getTipoPartido() == 1) {
-		                    elegirTemporizador.dibujar((Graphics2D) g);
-		                    textoElegirTemporizador.dibujar((Graphics2D) g);
-		                    jugar.dibujar((Graphics2D) g);
-	                    }
+	                    textoDificultadCpu.dibujar((Graphics2D) g);
+	                    continuar.dibujar((Graphics2D) g);
+	                    descripcionDificultad.dibujar((Graphics2D) g);
+	                    textoElegirCpu.dibujar((Graphics2D) g);
 	                    
 	                    g.dispose();
 	                } while(bs.contentsRestored());

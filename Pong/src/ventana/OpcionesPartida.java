@@ -54,7 +54,9 @@ public class OpcionesPartida extends JPanel implements Runnable {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(archivo);
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-            clip.start();
+            if(OpcionesMenu.getFlagSonido() == 1) {
+                clip.start();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,9 +142,17 @@ public class OpcionesPartida extends JPanel implements Runnable {
 			atras.color = new Color(158, 158, 158);
             opcionHoverActual = 2;
 	        
-	        if (mouseListener.isMousePressed()) {
-	            Main.cambiarEstado(3);
-	            }
+            if(Menu.getEstadoJugador() == 0) {
+    	        if (mouseListener.isMousePressed()) {
+    	            Main.cambiarEstado(3);
+    	        }
+            }
+            
+            else if(Menu.getEstadoJugador() == 1) {
+    	        if (mouseListener.isMousePressed()) {
+    	            Main.cambiarEstado(13);
+    	        }
+            }
 		}
 		
 		else {

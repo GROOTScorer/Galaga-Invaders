@@ -4,6 +4,18 @@ package GUI;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.Timer;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.util.LinkedList;
+
+import ventana.App;
+import ventana.Menu;
+import ventana.OpcionesMenu;
+
 import java.io.File;
 
 public class Pelota {
@@ -26,6 +38,10 @@ public class Pelota {
     private double velocidadY = 150;
     private double velocidadX = 150;
     private double velocidadIncremento = 10.0;
+    public static boolean controlesIntercambiados;
+    
+    private LinkedList<int[]> posicionesAnteriores;
+    private final int maxEstela = 10; // Tamaño máximo de la estela
     
     public Pelota(Rectangulo rectangulo, Rectangulo barraIzquierda, Rectangulo barraDerecha, Resultado resultadoIzquierdaTexto, Resultado resultadoDerechaTexto) {
         this.rectangulo = rectangulo;
@@ -43,6 +59,8 @@ public class Pelota {
         // Establecer la velocidad inicial
         this.direccionx = -velocidadInicialX;
         this.direcciony = velocidadInicialY;
+        
+        posicionesAnteriores = new LinkedList<>();
     }
     
     public double calcularVelocidadAngulo(Rectangulo barra) {
@@ -52,8 +70,55 @@ public class Pelota {
         
         return Math.toRadians(theta);
     }
+    
+    private void parpadearMarcador(final Resultado marcador) {
+        final Color originalColor = marcador.getColor();
+        final Timer timer = new Timer(200, null);
+        final int[] count = {0};
+
+        timer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (count[0] < 6) {
+                    marcador.setColor((count[0] % 2 == 0) ? Color.RED : originalColor);
+                    count[0]++;
+                } else {
+                    marcador.setColor(originalColor);
+                    timer.stop();
+                }
+            }
+        });
+
+        timer.start();
+    }
+    
+    private Color calcularColorEstela() {
+        // Calcula la magnitud de la velocidad de la pelota
+        float velocidad = (float) Math.sqrt(direccionx * direccionx + direcciony * direcciony);
+
+        if (velocidad < 500.0f) {
+            return new Color(0.0f, 0.0f, 0.0f, 0.0f); // Totalmente transparente
+        }
+
+        float intensidad = Math.min(1.0f, velocidad / 700.0f);
+        return new Color(1.0f, intensidad, 0.0f, intensidad); // Rojo a Naranja con transparencia
+    }
+
+
+    // Método para dibujar la estela
+    public void dibujarEstela(Graphics2D g2) {
+        Color colorEstela = calcularColorEstela();
+        g2.setColor(colorEstela);
+        for (int[] pos : posicionesAnteriores) {
+            g2.fillRect(pos[0], pos[1], rectangulo.anchura, rectangulo.altura);
+        }
+    }
 
     public void actualizar(double deltaTime) {
+    	
+        posicionesAnteriores.addFirst(new int[] {(int) x, (int) y});
+        if (posicionesAnteriores.size() > maxEstela) {
+            posicionesAnteriores.removeLast();
+        }
     	
     	int numeroTicks = 0;
     	numeroTicks++;
@@ -70,7 +135,7 @@ public class Pelota {
             }
         }
         else if(direcciony < 0.0) {
-            if(this.rectangulo.y < 30) {
+            if(this.rectangulo.y < 40) {
                 direcciony *= -1;
                 reproducirSonido("snd_impact.wav");
             }
@@ -112,19 +177,26 @@ public class Pelota {
         this.rectangulo.x = (int) x;
 
         // Caso donde se da punto para el segundo jugador o computadora
-        if(this.rectangulo.x < barraIzquierda.x) {
+        if (this.rectangulo.x < barraIzquierda.x) {
             int resultadoDerecha = Integer.parseInt(resultadoDerechaTexto.texto);
             resultadoDerecha++;
             resultadoDerechaTexto.texto = "" + resultadoDerecha;
-            reproducirSonido("snd_dumbvictory.wav"); // Reproducir sonido para el segundo jugador
+            if(Menu.getEstadoJugador() == 0) {
+                reproducirSonido("snd_wrongvictory.wav");          	
+            }
+            else if(Menu.getEstadoJugador() == 1) {
+                reproducirSonido("snd_dumbvictory.wav");           	
+            }
+            parpadearMarcador(resultadoDerechaTexto); // Parpadear marcador derecha
             reiniciarPosicion(true);
         }
         // Caso donde se da punto para el primer jugador
-        else if(this.rectangulo.x > barraDerecha.x + barraDerecha.anchura) {
+        else if (this.rectangulo.x > barraDerecha.x + barraDerecha.anchura) {
             int resultadoIzquierda = Integer.parseInt(resultadoIzquierdaTexto.texto);
             resultadoIzquierda++;
             resultadoIzquierdaTexto.texto = "" + resultadoIzquierda;
-            reproducirSonido("snd_dumbvictory.wav"); // Reproducir sonido para el segundo jugador
+            reproducirSonido("snd_dumbvictory.wav");           	
+            parpadearMarcador(resultadoIzquierdaTexto); // Parpadear marcador izquierda
             reiniciarPosicion(false);
         }
     }
@@ -138,12 +210,19 @@ public class Pelota {
         
         // Reiniciar la velocidad a su valor inicial
         if (direccionDerecha) {
-            this.direccionx = velocidadInicialX;
-            this.direcciony = -velocidadInicialY;
-        } else {
             this.direccionx = -velocidadInicialX;
             this.direcciony = velocidadInicialY;
+        } else {
+            this.direccionx = velocidadInicialX;
+            this.direcciony = -velocidadInicialY;
         }
+    }
+    
+    public void dibujar(Graphics2D g2) {
+    	if(OpcionesMenu.getFlagOnFire() == 1) {
+            dibujarEstela(g2);    		
+    	}
+        rectangulo.dibujar(g2);
     }
     
     private void reproducirSonido(String nombreArchivo) {
@@ -159,7 +238,9 @@ public class Pelota {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(archivo);
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-            clip.start();
+            if(OpcionesMenu.getFlagSonido() == 1) {
+                clip.start();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

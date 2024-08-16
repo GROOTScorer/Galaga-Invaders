@@ -31,4 +31,13 @@ public class Resultado {
 		g2.setFont(fuente);
 		g2.drawString(texto, (float)x, (float)y);
 	}
+	
+	public void setColor(Color color) {
+        this.color = color;
+    }
+
+    // Método para obtener el color actual del rectángulo
+    public Color getColor() {
+        return this.color;
+    }
 }

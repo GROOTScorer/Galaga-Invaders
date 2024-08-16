@@ -3,6 +3,8 @@ package GUI;
 
 import java.util.Random;
 
+import ventana.ElegirDificultadCpu;
+
 public class CpuControl {
     public ControlJugador controlJugador;
     public Rectangulo pelota;
@@ -14,7 +16,18 @@ public class CpuControl {
     public CpuControl(ControlJugador controlJugador, Rectangulo pelota) {
         this.controlJugador = controlJugador;
         this.pelota = pelota;
-        this.tiempoReaccion = 0.08; // Reducir el tiempo de reacción de la CPU
+        if(ElegirDificultadCpu.getDificultadCpu() == 1) {
+        	this.tiempoReaccion = 0.06;
+        }
+        
+        else if(ElegirDificultadCpu.getDificultadCpu() == 2) {
+        	this.tiempoReaccion = 0.04;
+        }
+        
+        else if(ElegirDificultadCpu.getDificultadCpu() == 3) {
+        	this.tiempoReaccion = 0;
+        }
+        this.tiempoReaccion = 0.07; // Reducir el tiempo de reacción de la CPU
         this.errorMargen = 3; // Reducir el margen de error para mayor precisión
         this.velocidadExtra = 1.5; // Incrementar la velocidad para hacerla más rápida
         this.random = new Random();
@@ -30,7 +43,17 @@ public class CpuControl {
         }
 
         // Resetear el tiempo de reacción para el próximo movimiento
-        tiempoReaccion = 0.08;
+        if(ElegirDificultadCpu.getDificultadCpu() == 1) {
+        	this.tiempoReaccion = 0.08;
+        }
+        
+        else if(ElegirDificultadCpu.getDificultadCpu() == 2) {
+        	this.tiempoReaccion = 0.06;
+        }
+        
+        else if(ElegirDificultadCpu.getDificultadCpu() == 3) {
+        	this.tiempoReaccion = 0.04;
+        }
 
         // Introducir un error aleatorio en la precisión de la CPU
         int error = random.nextInt((int) errorMargen * 2) - (int) errorMargen;
