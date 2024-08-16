@@ -165,14 +165,15 @@ public class App extends JPanel implements Runnable {
 
 	private void detenerJuego() {
 	    if (Integer.parseInt(resultadoIzquierdaTexto.texto) > Integer.parseInt(resultadoDerechaTexto.texto)) {
+	    	
+		        textoFinalPartido.texto = OpcionNombreJugador.getNombre2() + " GANA";
+	    } else if (Integer.parseInt(resultadoIzquierdaTexto.texto) < Integer.parseInt(resultadoDerechaTexto.texto)) {
 	    	if(Menu.getEstadoJugador() == 0) {
 		        textoFinalPartido.texto = "CPU GANA";
 	    	}
 	    	else if(Menu.getEstadoJugador() == 1) {
-		        textoFinalPartido.texto = OpcionNombreJugador.getNombre2() + " GANA";
+		        textoFinalPartido.texto = OpcionNombreJugador.getNombre1() + " GANA";	    		
 	    	}
-	    } else if (Integer.parseInt(resultadoIzquierdaTexto.texto) < Integer.parseInt(resultadoDerechaTexto.texto)) {
-		        textoFinalPartido.texto = OpcionNombreJugador.getNombre1() + " GANA";
 		        textoFinalPartido.x = 370;	    		
 	    } else {
 	        textoFinalPartido.texto = "EMPATE";
