@@ -2,50 +2,43 @@ package com.dregronprogram.levels;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.dregronprogram.enemy_types.EnemyType;
-import com.dregronprogram.enemy_types.EnemyTypeKamikaze;
 import com.dregronprogram.enemy_types.EnemyTypeBasic;
 import com.dregronprogram.game_screen.BasicBlocks;
 import com.dregronprogram.game_screen.Player;
 import com.dregronprogram.handler.EnemyBulletHandler;
 import com.dregronprogram.sound.Sound;
-import com.dregronprogram.timer.Timer;
 
-public class Level3 implements SuperLevel {
+public class Level1 implements SuperLevel {
 
     private Player player;
-    private ArrayList<EnemyType> enemies = new ArrayList<>();
+    private ArrayList<EnemyType> enemies = new ArrayList<EnemyType>();
     private EnemyBulletHandler bulletHandler;
-    
+
     private Sound beep, boop;
     private boolean beepboop;
-    
-    private Timer kamikazeTimer;
-    private Random random;
-    
-    public Level3(Player player, EnemyBulletHandler bulletHandler) {
+
+    public Level1(Player player, EnemyBulletHandler bulletHandler) {
         this.player = player;
         this.bulletHandler = bulletHandler;
         addEnemies();
-        
+
         beep = new Sound("/com/dregronprogram/sounds/beep.wav");
         boop = new Sound("/com/dregronprogram/sounds/boop.wav");
-        
-        kamikazeTimer = new Timer();
-        random = new Random();
     }
 
     @Override
     public void draw(Graphics2D g) {
         if (enemies == null)
             return;
-        
+
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).draw(g);
         }
-        bulletHandler.draw(g);
+
+        // No dibujamos los proyectiles de los enemigos
+        // bulletHandler.draw(g);
     }
 
     @Override
@@ -53,26 +46,25 @@ public class Level3 implements SuperLevel {
         if (enemies == null)
             return;
 
-        // Lanzamiento de naves kamikazes de forma secuencial
-        if (kamikazeTimer.timerEvent(2000 + random.nextInt(2000))) {  // Entre 2 a 4 segundos de intervalo
-            launchNextKamikaze();
-        }
-        
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).update(delta, player, blocks);
         }
+
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).collide(i, player, blocks, enemies);
         }
+
         hasDirectionChange(delta);
-        bulletHandler.update(delta, blocks, player);
+
+        // No actualizamos los proyectiles de los enemigos
+        // bulletHandler.update(delta, blocks, player);
     }
 
     @Override
     public void hasDirectionChange(double delta) {
         if (enemies == null)
             return;
-        
+
         for (int i = 0; i < enemies.size(); i++) {
             if (enemies.get(i).isOutOfBounds()) {
                 changeDirectionAllEnemies(delta);
@@ -100,19 +92,24 @@ public class Level3 implements SuperLevel {
     }
 
     @Override
+    public void destroy() {
+        // Método no utilizado
+    }
+
+    @Override
     public void reset() {
         player.reset();
         enemies.clear();
         addEnemies();
-        
+
+        // Reiniciamos el manejador de proyectiles, pero no se usan
         bulletHandler.reset();
-        kamikazeTimer = new Timer();
     }
-    
+
     public void addEnemies() {
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 10; x++) {
-                EnemyType e = new EnemyTypeBasic(150 + (x * 40), 25 + (y * 40), 1 , 3, bulletHandler);
+                EnemyType e = new EnemyTypeBasic(150 + (x * 40), 25 + (y * 40), 1, 3, bulletHandler);
                 enemies.add(e);
             }
         }
@@ -121,19 +118,6 @@ public class Level3 implements SuperLevel {
     @Override
     public boolean isComplete() {
         return enemies.isEmpty();
-    }
-
-    @Override
-    public void destroy() {
-        // Aquí puedes agregar lógica para destruir recursos si es necesario.
-    }
-    
-    private void launchNextKamikaze() {
-        int x = 150 + random.nextInt(10) * 40;
-        int y = 25 + random.nextInt(5) * 40;
-        EnemyTypeKamikaze kamikaze = new EnemyTypeKamikaze(x, y, 1, 3, bulletHandler);
-        kamikaze.setLaunched(true);
-        enemies.add(kamikaze);
     }
 
 	@Override
