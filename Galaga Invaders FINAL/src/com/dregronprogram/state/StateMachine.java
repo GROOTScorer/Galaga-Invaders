@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.dregronprogram.game_screen.GameScreen;
 import com.dregronprogram.menu_screen.MenuScreen;
 import com.dregronprogram.menu_screen.LevelSelectScreen;
+import com.dregronprogram.menu_screen.OptionsMenu;
 
 public class StateMachine {
 
@@ -20,12 +21,18 @@ public class StateMachine {
         SuperStateMachine game1 = new GameScreen(this); // Asume que este es el juego del nivel 1
         SuperStateMachine game2 = new GameScreen(this); // Puedes crear diferentes GameScreens para cada nivel si es necesario
         SuperStateMachine game3 = new GameScreen(this); // Otro ejemplo
+        SuperStateMachine game4 = new GameScreen(this); // Otro ejemplo
+        SuperStateMachine game5 = new GameScreen(this); // Otro ejemplo
+        SuperStateMachine options = new OptionsMenu(this);
 
         states.add(menu);
         states.add(levelSelect);
         states.add(game1);
         states.add(game2);
         states.add(game3);
+        states.add(game4);
+        states.add(game5);
+        states.add(options);
 
         this.canvas = canvas;
     }
